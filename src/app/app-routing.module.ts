@@ -13,7 +13,7 @@ import { EditGenreComponent } from './edit-genre/edit-genre.component';
 
 
 const routes: Routes = [
-{path: "", redirectTo:"/dashboard", pathMatch: "full"},
+{path: "", redirectTo:"/films", pathMatch: "full"}, //TODO redirect to dashboard
 {path: "dashboard", component: DashboardComponent},
 {path: "films", component: FilmsComponent},
 {path: "films/add", component: AddFilmComponent},
