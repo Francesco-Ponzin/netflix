@@ -36,4 +36,9 @@ export class GenreService {
     this.genres.push(genre);
     this.saveInLocalStorage();
   }
+
+  editGenre(){
+    this.selectedGenre = null;
+    this.saveInLocalStorage();
+  }
 }

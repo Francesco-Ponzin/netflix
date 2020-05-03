@@ -36,4 +36,9 @@ export class ActorService {
     this.actors.push(actor);
     this.saveInLocalStorage();
   }
+
+  editActor(){
+    this.selectedActor = null;
+    this.saveInLocalStorage();
+  }
 }

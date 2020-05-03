@@ -36,7 +36,8 @@ export class FilmService {
     this.saveInLocalStorage();
   }
 
-
-
-
+  editFilm(){
+    this.selectedFilm = null;
+    this.saveInLocalStorage();
+  }
 }
