@@ -1,1 +1,23 @@
-<p>films works!</p>
+<h2>{{title}}</h2>
+
+<div class="filmlist">
+    <div *ngFor="let film of films" class="detailBox">
+        <div>
+            <span class="info">{{film.title}}</span>
+            <span class="info">{{film.stars}}</span>
+            <span class="info">{{film.duration}}</span>
+            <button (click)="film.detail = true" [class.hidden]="film.detail">espandi</button>
+            <button (click)="film.detail = false" [class.hidden]="!film.detail">riduci</button>
+            <span class="info" [class.hidden]="!film.detail">CAST</span>
+            <span class="info" [class.hidden]="!film.detail">ANNO</span>
+            <span class="info" [class.hidden]="!film.detail">GENERE</span>
+            <span class="info" [class.hidden]="!film.detail">TAGS</span>
+            <span class="controls">
+                <button (click)="edit(film)">modifica</button>
+                <button (click)="delete(film)">elimina</button>
+            </span>
+
+
+        </div>
+    </div>
+</div>

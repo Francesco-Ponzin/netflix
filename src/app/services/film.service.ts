@@ -4,7 +4,18 @@ import { Observable, of } from 'rxjs';
 import {LocalStorageService, SessionStorageService} from 'ngx-webstorage';
 
 const FILMS:Film[] =[
-
+  {
+  id: 1,
+  title: "titolo",
+  description: "descrizione",
+  director: "regista",
+  duration: "durata",
+  releaseYear: 1895,
+  stars: 3,
+  cast: [],
+  genres: [],
+  tags: "tags"
+  }
 ]
 
 
