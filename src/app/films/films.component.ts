@@ -9,6 +9,8 @@ import { Film } from '../models/film';
 })
 export class FilmsComponent implements OnInit {
 
+  title = "elenco film";
+
   films: Film[];
 
   constructor(public filmService: FilmService) { }
@@ -20,5 +22,6 @@ export class FilmsComponent implements OnInit {
   edit(film:Film){
     this.filmService.selectedFilm = film;
   }
+
 
 }

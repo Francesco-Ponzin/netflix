@@ -1,1 +1,13 @@
-<p>add-film works!</p>
+<div>
+    <input type="text" [(ngModel)]="this.filmService.newFilm.title">
+    <input type="text" [(ngModel)]="this.filmService.newFilm.description">
+    <input type="text" [(ngModel)]="this.filmService.newFilm.director">
+    <input type="text" [(ngModel)]="this.filmService.newFilm.duration">
+    <input type="number" [(ngModel)]="this.filmService.newFilm.releaseYear">
+    <input type="number" [(ngModel)]="this.filmService.newFilm.stars">
+    <input type="text" [(ngModel)]="this.filmService.newFilm.tags">
+
+</div>
+
+
+<a routerLink="/films" (click)="this.filmService.addFilm()">salva</a>

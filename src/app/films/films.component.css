@@ -1,4 +1,4 @@
-.booklist{
+.filmlist{
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
@@ -51,7 +51,7 @@
     margin-top: 0.3em;
 }
 
-button{
+button, a{
     border: none;
     text-transform: none;
     margin: 0.5em 1em 0 0;
@@ -61,6 +61,7 @@ button{
     color: brown;
     font: inherit;
     cursor: pointer;
+    text-decoration: none;
 }
 
 .hidden{

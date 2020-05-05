@@ -1,1 +1,14 @@
-<p>edit-film works!</p>
+<div>
+    <input type="text" [(ngModel)]="this.filmService.selectedFilm.title">
+    <input type="text" [(ngModel)]="this.filmService.selectedFilm.description">
+    <input type="text" [(ngModel)]="this.filmService.selectedFilm.director">
+    <input type="text" [(ngModel)]="this.filmService.selectedFilm.duration">
+    <input type="number" [(ngModel)]="this.filmService.selectedFilm.releaseYear">
+    <input type="number" [(ngModel)]="this.filmService.selectedFilm.stars">
+    <input type="text" [(ngModel)]="this.filmService.selectedFilm.tags">
+
+</div>
+
+
+<a routerLink="/films" (click)="this.filmService.editFilm()">salva</a>
+

@@ -4,6 +4,9 @@ import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
+import { FormsModule } from '@angular/forms';
+
+
 import {NgxWebstorageModule} from 'ngx-webstorage';
 import { ActorsComponent } from './actors/actors.component';
 import { AddActorComponent } from './add-actor/add-actor.component';
@@ -34,6 +37,7 @@ import { GenresComponent } from './genres/genres.component';
   imports: [
     BrowserModule,
     AppRoutingModule,
+    FormsModule,
     NgxWebstorageModule.forRoot(),
   ],
   providers: [],

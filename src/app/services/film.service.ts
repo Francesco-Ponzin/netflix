@@ -61,7 +61,17 @@ const FILMS: Film[] = [
 export class FilmService {
 
   selectedFilm: Film;
-  newFilm: Film;
+  newFilm: Film =  {
+    title: "titolo",
+    description: "descrizione",
+    director: "regista",
+    duration: "durata",
+    releaseYear: 1895,
+    stars: 3,
+    cast: [],
+    genres: [],
+    tags: "tags"
+  };
   films: Film[];
 
 
@@ -77,8 +87,19 @@ export class FilmService {
     return of(this.films);
   }
 
-  addFilm(film: Film) {
-    this.films.push(film);
+  addFilm() {
+    this.films.push(this.newFilm);
+    this.newFilm = {
+      title: "titolo",
+      description: "descrizione",
+      director: "regista",
+      duration: "durata",
+      releaseYear: 1895,
+      stars: 3,
+      cast: [],
+      genres: [],
+      tags: "tags"
+    };
     this.saveInLocalStorage();
   }
 
@@ -86,4 +107,15 @@ export class FilmService {
     this.selectedFilm = null;
     this.saveInLocalStorage();
   }
+
+  deleteFilm(toDelete: Film){
+    for (let i = 0; i < this.films.length; i++) {
+      if(this.films[i] == toDelete){
+        this.films.splice(i,1);
+      }
+    }
+    this.saveInLocalStorage();
+
+  }
+
 }
