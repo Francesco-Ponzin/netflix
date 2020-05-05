@@ -3,7 +3,15 @@ import { Actor } from '../models/actor';
 import { LocalStorageService } from 'ngx-webstorage';
 import { Observable, of } from 'rxjs';
 
-const ACTORS:Actor[] =[
+const ACTORS: Actor[] = [
+  {
+    firstname: "George",
+    lastname: "Clooney"
+  },
+  {
+    firstname: "John",
+    lastname:"Turturro"
+  }
 
 ]
 
@@ -19,25 +27,25 @@ export class ActorService {
   newActor: Actor;
   actors: Actor[];
 
-  
-  constructor(private localStorage:LocalStorageService) { 
-    this.actors = this.localStorage.retrieve("actors") || ACTORS;
+
+  constructor(private localStorage: LocalStorageService) {
   }
 
-  saveInLocalStorage(){
+  saveInLocalStorage() {
     this.localStorage.store("actors", this.actors);
   }
 
   getActors(): Observable<Actor[]> {
-      return of(this.actors);
+    this.actors = this.localStorage.retrieve("actors") || ACTORS;
+    return of(this.actors);
   }
 
-  addActor(actor:Actor){
+  addActor(actor: Actor) {
     this.actors.push(actor);
     this.saveInLocalStorage();
   }
 
-  editActor(){
+  editActor() {
     this.selectedActor = null;
     this.saveInLocalStorage();
   }
