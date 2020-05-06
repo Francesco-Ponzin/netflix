@@ -1,1 +1,6 @@
-<p>edit-actor works!</p>
+<div>
+    <input type="text" [(ngModel)]="this.actorService.selectedActor.firstname">
+    <input type="text" [(ngModel)]="this.actorService.selectedActor.lastname">
+
+</div>
+<a routerLink="/actors" (click)="this.actorService.editActor()">salva</a>

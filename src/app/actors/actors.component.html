@@ -1,1 +1,12 @@
-<p>actors works!</p>
+<h2>Attori</h2>
+
+<ul *ngIf="actors.length">
+    <li *ngFor="let actor of actors">
+           {{actor.firstname}} {{actor.lastname}} 
+           <a  routerLink="/actors/edit" (click)="edit(actor)">modifica</a>
+           <a  (click)="this.actorService.deleteActor(actor)">elimina</a>
+    </li>
+
+</ul>
+
+<a  routerLink="/actors/add" >aggiungi</a>

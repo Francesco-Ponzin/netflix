@@ -1,1 +1,6 @@
-<p>add-actor works!</p>
+<div>
+    <input type="text" [(ngModel)]="this.actorService.newActor.firstname">
+    <input type="text" [(ngModel)]="this.actorService.newActor.lastname">
+
+</div>
+<a routerLink="/actors" (click)="this.actorService.addActor()">salva</a>

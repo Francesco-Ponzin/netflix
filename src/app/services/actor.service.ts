@@ -10,7 +10,7 @@ const ACTORS: Actor[] = [
   },
   {
     firstname: "John",
-    lastname:"Turturro"
+    lastname: "Turturro"
   }
 
 ]
@@ -24,7 +24,10 @@ const ACTORS: Actor[] = [
 export class ActorService {
 
   selectedActor: Actor;
-  newActor: Actor;
+  newActor: Actor = {
+    firstname: "",
+    lastname: ""
+  }
   actors: Actor[];
 
 
@@ -40,8 +43,12 @@ export class ActorService {
     return of(this.actors);
   }
 
-  addActor(actor: Actor) {
-    this.actors.push(actor);
+  addActor() {
+    this.actors.push(this.newActor);
+    this.newActor = {
+      firstname: "",
+      lastname: ""
+    }
     this.saveInLocalStorage();
   }
 
@@ -50,10 +57,10 @@ export class ActorService {
     this.saveInLocalStorage();
   }
 
-  deleteActor(toDelete: Actor){
+  deleteActor(toDelete: Actor) {
     for (let i = 0; i < this.actors.length; i++) {
-      if(this.actors[i] == toDelete){
-        this.actors.splice(i,1);
+      if (this.actors[i] == toDelete) {
+        this.actors.splice(i, 1);
       }
     }
     this.saveInLocalStorage();
