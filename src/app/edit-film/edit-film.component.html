@@ -6,7 +6,12 @@
     <input type="number" [(ngModel)]="this.filmService.selectedFilm.releaseYear">
     <input type="number" [(ngModel)]="this.filmService.selectedFilm.stars">
     <input type="text" [(ngModel)]="this.filmService.selectedFilm.tags">
-
+    <select multiple [(ngModel)]="this.filmService.selectedFilm.cast">
+        <option [value]="actor" *ngFor="let actor of actors">{{actor.firstname}} {{actor.lastname}}</option>
+    </select>
+    <select multiple [(ngModel)]="this.filmService.selectedFilm.genres">
+        <option [value]="genre" *ngFor="let genre of genres">{{genre.name}}</option>
+    </select>
 </div>
 
 

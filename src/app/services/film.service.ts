@@ -6,14 +6,23 @@ import { LocalStorageService, SessionStorageService } from 'ngx-webstorage';
 const FILMS: Film[] = [
   {
     id: 1,
-    title: "titolo",
-    description: "descrizione",
-    director: "regista",
-    duration: "durata",
-    releaseYear: 1895,
-    stars: 3,
-    cast: [],
-    genres: [],
+    title: "Apocalypse Now",
+    description: "Il miglior adattamento cinematografico di Cuore di Tenebra",
+    director: "Francis Ford Coppola",
+    duration: "2h 33m",
+    releaseYear: 1979,
+    stars: 8,
+    cast: [
+      {
+        firstname: "Marlon",
+        lastname: "Brando"
+      }
+    ],
+    genres: [
+      {
+        name: "Avventura"
+      }
+    ],
     tags: "tags"
   },
   {
@@ -33,8 +42,10 @@ const FILMS: Film[] = [
     ],
     genres: [
       {
-        id: 88,
-        name: 'commedia, avventura',
+        name: 'avventura',
+      },
+      {
+        name: 'commedia',
       }
     ],
     tags: 'hollywood, clooney',

@@ -8,10 +8,23 @@
             <span class="info">{{film.duration}}</span>
             <button (click)="film.detail = true" [class.hidden]="film.detail">espandi</button>
             <button (click)="film.detail = false" [class.hidden]="!film.detail">riduci</button>
-            <span class="info" [class.hidden]="!film.detail">CAST</span>
+            <span class="info" [class.hidden]="!film.detail">
+                <ul *ngIf="film.cast.length">
+                    Con:
+                    <li *ngFor="let actor of film.cast">
+                        {{actor.firstname}} {{actor.lastname}}
+                    </li>
+                </ul>
+            </span>
             <span class="info" [class.hidden]="!film.detail">{{film.releaseYear}}</span>
-            <span class="info" [class.hidden]="!film.detail">GENERE</span>
-            <span class="info" [class.hidden]="!film.detail">{{film.tags}}</span>
+            <span class="info" [class.hidden]="!film.detail">
+                <ul *ngIf="film.genres.length">
+                    Genere:
+                    <li *ngFor="let genre of film.genres">
+                        {{genre.name}}
+                    </li>
+                </ul>
+            </span>            <span class="info" [class.hidden]="!film.detail">{{film.tags}}</span>
             <span class="controls">
                 <a  routerLink="/films/edit" (click)="edit(film)">modifica</a>
                 <a  (click)="this.filmService.deleteFilm(film)">elimina</a>

@@ -11,6 +11,14 @@ const ACTORS: Actor[] = [
   {
     firstname: "John",
     lastname: "Turturro"
+  },
+  {
+    firstname: "Marlon",
+    lastname: "Brando"
+  },
+  {
+    firstname: "Meryl",
+    lastname: "Streep"
   }
 
 ]
