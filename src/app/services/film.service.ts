@@ -129,4 +129,15 @@ export class FilmService {
 
   }
 
+  getLastFilms() : Observable<Film[]>{
+    this.films = this.localStorage.retrieve("films") || FILMS;
+    return of(this.films.reverse().slice(0,4));
+    
+  }
+
+  getTopFilms() : Observable<Film[]>{
+    this.films = this.localStorage.retrieve("films") || FILMS;
+    return of(this.films.sort( function(b, a){return a.stars-b.stars}).slice(0,3));
+  }
+
 }

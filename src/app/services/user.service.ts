@@ -29,6 +29,7 @@ export class UserService {
 
   getLoggedUser(){
     this.loggedUser = this.localStorage.retrieve("user");
+    return this.loggedUser;
   }
 
 }

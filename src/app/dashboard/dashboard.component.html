@@ -1,1 +1,32 @@
-<p>dashboard works!</p>
+<h2>Dashboard </h2>
+<button *ngIf="!this.userService.getLoggedUser()" (click)="this.userService.login()">login</button>
+<button *ngIf="this.userService.getLoggedUser()" (click)="this.userService.logout()">logout</button>
+<h3 *ngIf="this.userService.getLoggedUser()">Bentornato {{this.userService.loggedUser.firstname}} {{this.userService.loggedUser.lastname}}</h3>
+
+<div class="list">
+    <div class="detailBox">
+
+        <h3>Top Films</h3>
+        <ol>
+            <li *ngFor="let film of topFilms">
+                {{film.title}} <br>
+                {{"☆".repeat(film.stars)}}
+
+            </li>
+        </ol>
+    </div>
+
+    <div class="detailBox">
+
+        <h3>Ultimi film inseriti</h3>
+        <ol>
+            <li *ngFor="let film of lastFilms">
+                {{film.title}}
+            </li>
+        </ol>
+
+    </div>
+</div>
+<a routerLink="/films">Film</a>
+<a routerLink="/actors">Attori</a>
+<a routerLink="/genres">Generi</a>
