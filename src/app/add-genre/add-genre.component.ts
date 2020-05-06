@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { GenreService } from '../services/genre.service';
 
 @Component({
   selector: 'app-add-genre',
@@ -7,7 +8,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AddGenreComponent implements OnInit {
 
-  constructor() { }
+  constructor(public genreService: GenreService) { }
 
   ngOnInit(): void {
   }

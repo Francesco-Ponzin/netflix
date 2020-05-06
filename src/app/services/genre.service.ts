@@ -48,7 +48,9 @@ const GENRES: Genre[] = [
 export class GenreService {
 
   selectedGenre: Genre;
-  newGenre: Genre;
+  newGenre: Genre ={
+    name: ""
+  };
   genres: Genre[];
 
 
@@ -64,13 +66,26 @@ export class GenreService {
     return of(this.genres);
   }
 
-  addGenre(genre: Genre) {
-    this.genres.push(genre);
+  addGenre() {
+    this.genres.push(this.newGenre);
+    this.newGenre = {
+      name: ""
+    }
     this.saveInLocalStorage();
   }
 
   editGenre() {
     this.selectedGenre = null;
     this.saveInLocalStorage();
+  }
+
+  deleteGenre(toDelete: Genre){
+    for (let i = 0; i < this.genres.length; i++) {
+      if(this.genres[i] == toDelete){
+        this.genres.splice(i,1);
+      }
+    }
+    this.saveInLocalStorage();
+
   }
 }

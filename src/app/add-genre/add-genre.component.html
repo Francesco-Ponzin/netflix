@@ -1,1 +1,4 @@
-<p>add-genre works!</p>
+<div>
+    <input type="text" [(ngModel)]="this.genreService.newGenre.name">
+</div>
+<a routerLink="/genres" (click)="this.genreService.addGenre()">salva</a>

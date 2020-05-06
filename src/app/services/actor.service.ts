@@ -49,4 +49,14 @@ export class ActorService {
     this.selectedActor = null;
     this.saveInLocalStorage();
   }
+
+  deleteActor(toDelete: Actor){
+    for (let i = 0; i < this.actors.length; i++) {
+      if(this.actors[i] == toDelete){
+        this.actors.splice(i,1);
+      }
+    }
+    this.saveInLocalStorage();
+
+  }
 }
