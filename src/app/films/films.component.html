@@ -1,8 +1,10 @@
 <h2>{{title}}</h2>
 
+
+<label for="cerca">Cerca film </label><input type="text" name="cerca" id="cerca" (input)="search($event)"> <br>
 <a routerLink="/">Torna alla home</a>
 
-<label for="cerca">Cerca film</label><input type="text" name="cerca" id="cerca" (input)="search($event)">
+
 
 <div class="filmlist">
     <div *ngFor="let film of filteredFilms" class="detailBox">
