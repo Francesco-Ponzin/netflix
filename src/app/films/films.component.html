@@ -2,8 +2,10 @@
 
 <a routerLink="/">Torna alla home</a>
 
+<label for="cerca">Cerca film</label><input type="text" name="cerca" id="cerca" (input)="search($event)">
+
 <div class="filmlist">
-    <div *ngFor="let film of films" class="detailBox">
+    <div *ngFor="let film of filteredFilms" class="detailBox">
         <div>
             <span class="info">{{film.title}}</span>
             <span class="info">{{"☆".repeat(film.stars)}}</span>
