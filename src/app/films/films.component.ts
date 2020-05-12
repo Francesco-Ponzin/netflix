@@ -13,7 +13,7 @@ export class FilmsComponent implements OnInit {
 
   films: Film[];
   filteredFilms: Film[];
-
+  searchTask;
   constructor(public filmService: FilmService) { }
 
   ngOnInit(): void {
@@ -21,14 +21,24 @@ export class FilmsComponent implements OnInit {
     this.filteredFilms = this.films;
   }
 
-  edit(film:Film){
+  edit(film: Film) {
     this.filmService.selectedFilm = film;
   }
 
-  search(event){
-    
+  search(event) {
 
-   this.filteredFilms =  this.films.filter(x => x.title.toLowerCase().indexOf(event.target.value.toLowerCase()) !== -1);
+    clearTimeout(this.searchTask);
+
+    if (event.target.value.length > 2) {
+      this.searchTask = setTimeout(() => {
+        this.filteredFilms = this.films.filter(x => x.title.toLowerCase().indexOf(event.target.value.toLowerCase()) !== -1);
+      }, 300)
+
+    } else {
+      this.searchTask = setTimeout(() => {
+        this.filteredFilms = this.films;
+      }, 300)
+    }
 
   }
 
