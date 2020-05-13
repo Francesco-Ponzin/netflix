@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { User } from '../models/user';
 import { LocalStorageService } from 'ngx-webstorage';
+import { Film } from '../models/film';
 
 const USERS: User[] = [
   {
@@ -49,6 +50,25 @@ export class UserService {
   getLoggedUser() {
     this.loggedUser = this.localStorage.retrieve("user");
     return this.loggedUser;
+  }
+
+  isFavorite(film: Film):boolean{
+    for (let favorite of this.loggedUser.favoritesFilm){
+      if (film.id === favorite.id){
+        return true;
+      }
+    }
+    return false;
+  }
+
+  addFavorite(film:Film):void{
+    this.loggedUser.favoritesFilm.push(film);
+    this.localStorage.store("user", this.loggedUser);
+  }
+
+  removeFavorite(film:Film):void{
+    this.loggedUser.favoritesFilm = this.loggedUser.favoritesFilm.filter(x => x !== film);
+    this.localStorage.store("user", this.loggedUser);
   }
 
 }

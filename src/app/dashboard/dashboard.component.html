@@ -15,7 +15,16 @@
         <h3>Top Films</h3>
         <ol>
             <li *ngFor="let film of topFilms">
-                {{film.title}} <br>
+                {{film.title}} 
+                <span class="clickable" *ngIf="this.userService.getLoggedUser()">
+                    <span  *ngIf="this.userService.isFavorite(film)" (click)="this.userService.removeFavorite(film)">
+                        ❤
+                    </span>
+                    <span *ngIf="!this.userService.isFavorite(film)" (click)="this.userService.addFavorite(film)">
+                        💔
+                    </span>
+                </span>
+                <br>
                 {{"☆".repeat(film.stars)}}
 
             </li>
@@ -28,6 +37,14 @@
         <ol>
             <li *ngFor="let film of lastFilms">
                 {{film.title}}
+                <span class="clickable" *ngIf="this.userService.getLoggedUser()">
+                    <span  *ngIf="this.userService.isFavorite(film)" (click)="this.userService.removeFavorite(film)">
+                        ❤
+                    </span>
+                    <span *ngIf="!this.userService.isFavorite(film)" (click)="this.userService.addFavorite(film)">
+                        💔
+                    </span>
+                </span>
             </li>
         </ol>
 

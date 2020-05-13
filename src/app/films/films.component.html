@@ -9,7 +9,16 @@
 <div class="filmlist">
     <div *ngFor="let film of filteredFilms" class="detailBox">
         <div>
-            <span class="info">{{film.title}}</span>
+            <span class="info">{{film.title}}
+                <span  class="clickable" *ngIf="this.userService.getLoggedUser()">
+                    <span  *ngIf="this.userService.isFavorite(film)" (click)="this.userService.removeFavorite(film)">
+                        ❤
+                    </span>
+                    <span   *ngIf="!this.userService.isFavorite(film)" (click)="this.userService.addFavorite(film)">
+                        💔
+                    </span>
+                </span>
+            </span>
             <span class="info">{{"☆".repeat(film.stars)}}</span>
             <span class="info">{{film.duration}}</span>
             <button (click)="film.detail = true" [class.hidden]="film.detail">espandi</button>
@@ -30,10 +39,10 @@
                         {{genre.name}}
                     </li>
                 </ul>
-            </span>            <span class="info" [class.hidden]="!film.detail">{{film.tags}}</span>
+            </span> <span class="info" [class.hidden]="!film.detail">{{film.tags}}</span>
             <span class="controls">
-                <a  routerLink="/films/edit" (click)="edit(film)">modifica</a>
-                <a  (click)="this.filmService.deleteFilm(film)">elimina</a>
+                <a routerLink="/films/edit" (click)="edit(film)">modifica</a>
+                <a (click)="this.filmService.deleteFilm(film)">elimina</a>
 
             </span>
 

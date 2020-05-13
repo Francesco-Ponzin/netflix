@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FilmService } from '../services/film.service';
 import { Film } from '../models/film';
+import { UserService } from '../services/user.service';
 
 @Component({
   selector: 'app-films',
@@ -14,7 +15,7 @@ export class FilmsComponent implements OnInit {
   films: Film[];
   filteredFilms: Film[];
   searchTask;
-  constructor(public filmService: FilmService) { }
+  constructor(public filmService: FilmService, public userService :UserService) { }
 
   ngOnInit(): void {
     this.filmService.getFilms().subscribe(films => this.films = films);
