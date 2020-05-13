@@ -10,6 +10,9 @@ import { UserService } from '../services/user.service';
 })
 export class DashboardComponent implements OnInit {
 
+  username:string = "";
+  password:string="";
+
   lastFilms: Film[];
   topFilms: Film[];
 
@@ -21,6 +24,11 @@ export class DashboardComponent implements OnInit {
 
     this.filmService.getTopFilms().subscribe(films => this.topFilms = films);
 
+  }
+
+  login():void{
+  
+    this.userService.login(this.username, this.password);
   }
 
 }

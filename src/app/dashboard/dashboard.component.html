@@ -1,7 +1,13 @@
 <h2>Dashboard </h2>
-<button *ngIf="!this.userService.getLoggedUser()" (click)="this.userService.login()">login</button>
+<div class="login" *ngIf="!this.userService.getLoggedUser()">
+    <label for="username">Username</label><input type="text" name="username" id="username" [(ngModel)]="username">
+    <label for="password">Password</label><input type="password" name="password" id="password" [(ngModel)]="password">
+    <button (click)="this.login()">login</button>
+
+</div>
 <button *ngIf="this.userService.getLoggedUser()" (click)="this.userService.logout()">logout</button>
-<h3 *ngIf="this.userService.getLoggedUser()">Bentornato {{this.userService.loggedUser.firstname}} {{this.userService.loggedUser.lastname}}</h3>
+<h3 *ngIf="this.userService.getLoggedUser()">Bentornato {{this.userService.loggedUser.firstname}}
+    {{this.userService.loggedUser.lastname}}</h3>
 
 <div class="list">
     <div class="detailBox">
