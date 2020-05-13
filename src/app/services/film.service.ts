@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Film } from '../models/film';
 import { Observable, of } from 'rxjs';
 import { LocalStorageService, SessionStorageService } from 'ngx-webstorage';
+import { UserService } from './user.service';
 
 const FILMS: Film[] = [
   {
@@ -11,7 +12,7 @@ const FILMS: Film[] = [
     director: "Francis Ford Coppola",
     duration: "2h 33m",
     releaseYear: 1979,
-    stars: 8,
+    stars: 10,
     cast: [
       {
         firstname: "Marlon",
@@ -72,7 +73,7 @@ const FILMS: Film[] = [
 export class FilmService {
 
   selectedFilm: Film;
-  newFilm: Film =  {
+  newFilm: Film = {
     title: "titolo",
     description: "descrizione",
     director: "regista",
@@ -86,7 +87,7 @@ export class FilmService {
   films: Film[];
 
 
-  constructor(private localStorage: LocalStorageService) {
+  constructor(private localStorage: LocalStorageService, private userService: UserService) {
   }
 
   saveInLocalStorage() {
@@ -119,25 +120,32 @@ export class FilmService {
     this.saveInLocalStorage();
   }
 
-  deleteFilm(toDelete: Film){
+  deleteFilm(toDelete: Film) {
     for (let i = 0; i < this.films.length; i++) {
-      if(this.films[i] == toDelete){
-        this.films.splice(i,1);
+      if (this.films[i] == toDelete) {
+        this.films.splice(i, 1);
       }
     }
     this.saveInLocalStorage();
 
   }
 
-  getLastFilms() : Observable<Film[]>{
+  getLastFilms(): Observable<Film[]> {
     this.films = this.localStorage.retrieve("films") || FILMS;
-    return of(this.films.reverse().slice(0,4));
-    
+    return of(this.films.reverse().slice(0, 4));
+
   }
 
-  getTopFilms() : Observable<Film[]>{
+  getTopFilms(): Observable<Film[]> {
     this.films = this.localStorage.retrieve("films") || FILMS;
-    return of(this.films.sort( function(b, a){return a.stars-b.stars}).slice(0,3));
+    return of(this.films.sort(function (b, a) { return a.stars - b.stars }).slice(0, 3));
+  }
+
+  setStars(film: Film, stars: number) {
+    if (this.userService.loggedUser) {
+      film.stars = stars;
+      this.saveInLocalStorage();
+    }
   }
 
 }

@@ -19,7 +19,49 @@
                     </span>
                 </span>
             </span>
-            <span class="info">{{"☆".repeat(film.stars)}}</span>
+            <span class="info" [ngClass]="{'clickable' : this.userService.getLoggedUser()}">
+                <span  (click)="this.filmService.setStars(film, 2)">
+                    <span *ngIf="film.stars >= 2">
+                        ★
+                    </span>
+                    <span *ngIf="film.stars < 2">
+                        ☆
+                    </span>
+                </span>
+                <span (click)="this.filmService.setStars(film, 4)">
+                    <span *ngIf="film.stars >=4">
+                        ★
+                    </span>
+                    <span *ngIf="film.stars < 4">
+                        ☆
+                    </span>
+                </span>
+                <span (click)="this.filmService.setStars(film, 6)">
+                    <span *ngIf="film.stars >=6">
+                        ★
+                    </span>
+                    <span *ngIf="film.stars < 6">
+                        ☆
+                    </span>
+                </span>
+                <span (click)="this.filmService.setStars(film, 8)">
+                    <span *ngIf="film.stars >= 8">
+                        ★
+                    </span>
+                    <span *ngIf="film.stars < 8">
+                        ☆
+                    </span>
+                </span>
+                <span (click)="this.filmService.setStars(film, 10)">
+                    <span *ngIf="film.stars >=10">
+                        ★
+                    </span>
+                    <span *ngIf="film.stars < 10">
+                        ☆
+                    </span>
+                </span>
+            </span>
+            
             <span class="info">{{film.duration}}</span>
             <button (click)="film.detail = true" [class.hidden]="film.detail">espandi</button>
             <button (click)="film.detail = false" [class.hidden]="!film.detail">riduci</button>
