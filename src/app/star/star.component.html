@@ -1,8 +1,8 @@
 <span (click)="this.filmService.setStars(film, value)" *ngFor="let value of values">
-    <span *ngIf="film.stars > value -1">
+    <span *ngIf="film.stars >= value">
         <fa-icon [icon]="starOne"></fa-icon>
     </span>
-    <span *ngIf="film.stars === value - 1">
+    <span *ngIf="film.stars >= value - 1 && film.stars < value">
         <fa-icon [icon]="starHalf"></fa-icon>
     </span>
     <span *ngIf="film.stars < (value -1)">
