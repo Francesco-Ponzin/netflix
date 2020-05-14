@@ -19,6 +19,7 @@ import { EditGenreComponent } from './edit-genre/edit-genre.component';
 import { FilmsComponent } from './films/films.component';
 import { GenresComponent } from './genres/genres.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { StarComponent } from './star/star.component';
 
 
 @NgModule({
@@ -33,7 +34,8 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
     EditFilmComponent,
     EditGenreComponent,
     FilmsComponent,
-    GenresComponent
+    GenresComponent,
+    StarComponent
   ],
   imports: [
     BrowserModule,
