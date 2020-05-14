@@ -3,6 +3,7 @@ import { FilmService } from '../services/film.service';
 import { Film } from '../models/film';
 import { UserService } from '../services/user.service';
 
+
 @Component({
   selector: 'app-films',
   templateUrl: './films.component.html',
@@ -15,6 +16,9 @@ export class FilmsComponent implements OnInit {
   films: Film[];
   filteredFilms: Film[];
   searchTask;
+
+
+
   constructor(public filmService: FilmService, public userService :UserService) { }
 
   ngOnInit(): void {

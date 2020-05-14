@@ -10,57 +10,16 @@
     <div *ngFor="let film of filteredFilms" class="detailBox">
         <div>
             <span class="info">{{film.title}}
-                <span  class="clickable" *ngIf="this.userService.getLoggedUser()">
-                    <span  *ngIf="this.userService.isFavorite(film)" (click)="this.userService.removeFavorite(film)">
+                <span class="clickable" *ngIf="this.userService.getLoggedUser()">
+                    <span *ngIf="this.userService.isFavorite(film)" (click)="this.userService.removeFavorite(film)">
                         ❤
                     </span>
-                    <span   *ngIf="!this.userService.isFavorite(film)" (click)="this.userService.addFavorite(film)">
+                    <span *ngIf="!this.userService.isFavorite(film)" (click)="this.userService.addFavorite(film)">
                         💔
                     </span>
                 </span>
             </span>
-            <span class="info" [ngClass]="{'clickable' : this.userService.getLoggedUser()}">
-                <span  (click)="this.filmService.setStars(film, 2)">
-                    <span *ngIf="film.stars >= 2">
-                        ★
-                    </span>
-                    <span *ngIf="film.stars < 2">
-                        ☆
-                    </span>
-                </span>
-                <span (click)="this.filmService.setStars(film, 4)">
-                    <span *ngIf="film.stars >=4">
-                        ★
-                    </span>
-                    <span *ngIf="film.stars < 4">
-                        ☆
-                    </span>
-                </span>
-                <span (click)="this.filmService.setStars(film, 6)">
-                    <span *ngIf="film.stars >=6">
-                        ★
-                    </span>
-                    <span *ngIf="film.stars < 6">
-                        ☆
-                    </span>
-                </span>
-                <span (click)="this.filmService.setStars(film, 8)">
-                    <span *ngIf="film.stars >= 8">
-                        ★
-                    </span>
-                    <span *ngIf="film.stars < 8">
-                        ☆
-                    </span>
-                </span>
-                <span (click)="this.filmService.setStars(film, 10)">
-                    <span *ngIf="film.stars >=10">
-                        ★
-                    </span>
-                    <span *ngIf="film.stars < 10">
-                        ☆
-                    </span>
-                </span>
-            </span>
+            <app-star [film]="film" [ngClass]="{'clickable' : this.userService.getLoggedUser()}"></app-star>
             
             <span class="info">{{film.duration}}</span>
             <button (click)="film.detail = true" [class.hidden]="film.detail">espandi</button>

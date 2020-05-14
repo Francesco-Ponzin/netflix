@@ -25,7 +25,7 @@
                     </span>
                 </span>
                 <br>
-                {{"★".repeat(film.stars)}}{{"☆".repeat(10-film.stars)}}
+                <app-star [film]="film" [ngClass]="{'clickable' : this.userService.getLoggedUser()}"></app-star>
 
             </li>
         </ol>

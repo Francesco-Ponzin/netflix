@@ -1,1 +1,13 @@
-<p>star works!</p>
+<span (click)="this.filmService.setStars(film, value)" *ngFor="let value of values">
+    <span *ngIf="film.stars > value -1">
+        <fa-icon [icon]="starOne"></fa-icon>
+    </span>
+    <span *ngIf="film.stars === value - 1">
+        <fa-icon [icon]="starHalf"></fa-icon>
+    </span>
+    <span *ngIf="film.stars < (value -1)">
+        <fa-icon [icon]="starZero"></fa-icon>
+    </span>
+</span>
+
+
