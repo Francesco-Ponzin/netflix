@@ -21,9 +21,7 @@ export class DashboardComponent implements OnInit {
 
   ngOnInit(): void {
     this.filmService.getLastFilms().subscribe(films => this.lastFilms = films);
-
     this.filmService.getTopFilms().subscribe(films => this.topFilms = films);
-
   }
 
   login():void{

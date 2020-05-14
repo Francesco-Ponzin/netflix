@@ -1,4 +1,4 @@
-<span (click)="this.filmService.setStars(film, value)" *ngFor="let value of values">
+<span (click)="this.filmService.setStars(film, value); voteChanged.emit(value)" *ngFor="let value of values">
     <span *ngIf="film.stars >= value">
         <fa-icon [icon]="starOne"></fa-icon>
     </span>

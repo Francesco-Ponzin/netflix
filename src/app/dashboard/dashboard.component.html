@@ -25,7 +25,7 @@
                     </span>
                 </span>
                 <br>
-                <app-star [film]="film" [ngClass]="{'clickable' : this.userService.getLoggedUser()}"></app-star>
+                <app-star [film]="film" [ngClass]="{'clickable' : this.userService.getLoggedUser()}" (voteChanged)="ngOnInit()"></app-star>
 
             </li>
         </ol>
