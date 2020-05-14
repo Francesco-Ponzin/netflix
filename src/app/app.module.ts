@@ -18,6 +18,7 @@ import { EditFilmComponent } from './edit-film/edit-film.component';
 import { EditGenreComponent } from './edit-genre/edit-genre.component';
 import { FilmsComponent } from './films/films.component';
 import { GenresComponent } from './genres/genres.component';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 
 @NgModule({
@@ -39,6 +40,7 @@ import { GenresComponent } from './genres/genres.component';
     AppRoutingModule,
     FormsModule,
     NgxWebstorageModule.forRoot(),
+    FontAwesomeModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
