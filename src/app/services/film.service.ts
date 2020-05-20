@@ -3,7 +3,8 @@ import { Film } from '../models/film';
 import { Observable, of } from 'rxjs';
 import { LocalStorageService, SessionStorageService } from 'ngx-webstorage';
 import { UserService } from './user.service';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { tap } from 'rxjs/operators';
 
 
 const FILMS: Film[] = [
@@ -88,6 +89,10 @@ export class FilmService {
   };
   films: Film[];
 
+  httpOptions = {
+  header: new Headers({"Content-Type": "application/json", 'Authorization': this.userService.getLoggedUser().token })
+};
+    
 
   constructor(private localStorage: LocalStorageService, private userService: UserService, private http: HttpClient) {
   }
@@ -98,14 +103,30 @@ export class FilmService {
 
   getFilms(): Observable<Film[]> {
 
-  //  this.films = this.localStorage.retrieve("films") || FILMS;
-  //  return of(this.films);
-  
-  return this.http.get<Film[]>("https://crepidoma.ddns.net/engim/netflixapi/v1/films.json");
+
+
+  return this.http.get<Film[]>("http://netflix.cristiancarrino.com/film/read.php").pipe(
+    tap( response=>console.log(response),
+    
+    )
+    );
+
   }
 
   addFilm() {
-    this.films.push(this.newFilm);
+    let httpOptions= {
+      headers: new HttpHeaders({
+        'Content-Type':  'application/json',
+        'Authorization': this.userService.getLoggedUser().token
+      })
+    };
+
+    this.http.post<Film[]>("http://netflix.cristiancarrino.com/film/create.php",this.newFilm,httpOptions).subscribe(response =>{
+      
+    console.log(response);
+    } );
+
+
     this.newFilm = {
       title: "titolo",
       description: "descrizione",
@@ -117,7 +138,6 @@ export class FilmService {
       genres: [],
       tags: "tags"
     };
-    this.saveInLocalStorage();
   }
 
   editFilm() {
@@ -135,15 +155,13 @@ export class FilmService {
 
   }
 
-  getLastFilms(): Observable<Film[]> {
-    this.films = this.localStorage.retrieve("films") || FILMS;
-    return of(this.films.reverse().slice(0, 4));
+  getLastFilms(films: Film[]): Observable<Film[]> {
+    return of(films.reverse().slice(0, 4));
 
   }
 
-  getTopFilms(): Observable<Film[]> {
-    this.films = this.localStorage.retrieve("films") || FILMS;
-    return of(this.films.sort(function (b, a) { return a.stars - b.stars }).slice(0, 3));
+  getTopFilms(films: Film[]): Observable<Film[]> {
+    return of(films.sort(function (b, a) { return a.stars - b.stars }).slice(0, 3));
   }
 
   setStars(film: Film, stars: number) {

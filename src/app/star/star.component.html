@@ -2,10 +2,10 @@
     <span *ngIf="film.stars >= value">
         <fa-icon [icon]="starOne"></fa-icon>
     </span>
-    <span *ngIf="film.stars >= value - 1 && film.stars < value">
+    <span *ngIf="film.stars >= value - 0.5 && film.stars < value">
         <fa-icon [icon]="starHalf"></fa-icon>
     </span>
-    <span *ngIf="film.stars < (value -1)">
+    <span *ngIf="film.stars < (value -0.5)">
         <fa-icon [icon]="starZero"></fa-icon>
     </span>
 </span>

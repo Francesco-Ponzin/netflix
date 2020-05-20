@@ -22,7 +22,7 @@ export class FilmsComponent implements OnInit {
   constructor(public filmService: FilmService, public userService :UserService) { }
 
   ngOnInit(): void {
-    this.filmService.getFilms().subscribe(films => {this.films = films["films"]; this.filteredFilms = this.films;console.log(this.films);
+    this.filmService.getFilms().subscribe(films => {this.films = films; this.filteredFilms = this.films;
     });
 
   }

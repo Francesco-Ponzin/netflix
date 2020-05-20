@@ -10,22 +10,29 @@ import { UserService } from '../services/user.service';
 })
 export class DashboardComponent implements OnInit {
 
-  username:string = "";
-  password:string="";
+  username: string = "";
+  password: string = "";
 
   lastFilms: Film[];
   topFilms: Film[];
 
 
-  constructor(public filmService: FilmService, public userService:UserService) { }
+  constructor(public filmService: FilmService, public userService: UserService) { }
 
   ngOnInit(): void {
-    this.filmService.getLastFilms().subscribe(films => this.lastFilms = films);
-    this.filmService.getTopFilms().subscribe(films => this.topFilms = films);
+
+    this.filmService.getFilms().subscribe(response => {
+      this.filmService.getLastFilms(response).subscribe(films => this.lastFilms = films);
+      this.filmService.getTopFilms(response).subscribe(films => this.topFilms = films);
+
+    })
+
+
+
   }
 
-  login():void{
-  
+  login(): void {
+
     this.userService.login(this.username, this.password);
   }
 

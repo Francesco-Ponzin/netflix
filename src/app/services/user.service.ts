@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { User } from '../models/user';
 import { LocalStorageService } from 'ngx-webstorage';
 import { Film } from '../models/film';
+import { HttpClient } from '@angular/common/http';
 
 const USERS: User[] = [
   {
@@ -29,17 +30,31 @@ export class UserService {
 
   loggedUser: User;
 
-  constructor(private localStorage: LocalStorageService) { }
+  constructor(private localStorage: LocalStorageService, private http: HttpClient) { }
 
   login(username: string, password: string) {
 
-    for (let user of USERS) {
-      if (user.username === username && user.password === password){
-        this.loggedUser = user;
-      }
-    } 
 
-    this.localStorage.store("user", this.loggedUser);
+    let myuser = {
+      "username": username,
+      "password": password
+    }
+
+
+    this.http.post<User>("http://netflix.cristiancarrino.com/user/login.php", myuser).subscribe(response => {
+      console.log(response);
+
+      this.loggedUser = response;
+      if (!this.loggedUser.favoritesFilm){
+        this.loggedUser.favoritesFilm = [];
+      }
+
+      this.localStorage.store("user", this.loggedUser);
+
+    });
+
+
+
   }
 
   logout() {
@@ -52,21 +67,21 @@ export class UserService {
     return this.loggedUser;
   }
 
-  isFavorite(film: Film):boolean{
-    for (let favorite of this.loggedUser.favoritesFilm){
-      if (film.id === favorite.id){
+  isFavorite(film: Film): boolean {
+    for (let favorite of this.loggedUser.favoritesFilm) {
+      if (film.id === favorite.id) {
         return true;
       }
     }
     return false;
   }
 
-  addFavorite(film:Film):void{
+  addFavorite(film: Film): void {
     this.loggedUser.favoritesFilm.push(film);
     this.localStorage.store("user", this.loggedUser);
   }
 
-  removeFavorite(film:Film):void{
+  removeFavorite(film: Film): void {
     this.loggedUser.favoritesFilm = this.loggedUser.favoritesFilm.filter(x => x !== film);
     this.localStorage.store("user", this.loggedUser);
   }

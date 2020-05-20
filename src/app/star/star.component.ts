@@ -19,7 +19,7 @@ export class StarComponent implements OnInit {
   @Input() film:Film;
   @Output() voteChanged = new EventEmitter();
 
-  values = [2,4,6,8,10];
+  values = [1,2,3,4,5];
 
   constructor(public filmService: FilmService) { }
 
