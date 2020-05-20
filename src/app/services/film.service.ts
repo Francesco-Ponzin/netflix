@@ -107,7 +107,7 @@ export class FilmService {
 
   return this.http.get<Film[]>("http://netflix.cristiancarrino.com/film/read.php").pipe(
     tap( response=>console.log(response),
-    
+
     )
     );
 
@@ -121,11 +121,15 @@ export class FilmService {
       })
     };
 
-    this.http.post<Film[]>("http://netflix.cristiancarrino.com/film/create.php",this.newFilm,httpOptions).subscribe(response =>{
+    let toAdd = Object.assign({}, this.newFilm);
+
+    //toAdd.cast = toAdd.cast.map(x => x.id);
+    //toAdd.genres = toAdd.genres.map(x => x.id);
+
+    this.http.post<Film[]>("http://netflix.cristiancarrino.com/film/create.php",toAdd,httpOptions).subscribe(response =>{
       
     console.log(response);
     } );
-
 
     this.newFilm = {
       title: "titolo",
@@ -138,20 +142,41 @@ export class FilmService {
       genres: [],
       tags: "tags"
     };
+
   }
 
   editFilm() {
+    let httpOptions= {
+      headers: new HttpHeaders({
+        'Content-Type':  'application/json',
+        'Authorization': this.userService.getLoggedUser().token
+      })
+    };
+
+    this.http.post<Film[]>("http://netflix.cristiancarrino.com/film/update.php",this.selectedFilm,httpOptions).subscribe(response =>{
+      
+      console.log(response);
+      } );
+      this.selectedFilm = null;
+
+    /*
     this.selectedFilm = null;
     this.saveInLocalStorage();
+
+    */
   }
 
   deleteFilm(toDelete: Film) {
-    for (let i = 0; i < this.films.length; i++) {
-      if (this.films[i] == toDelete) {
-        this.films.splice(i, 1);
-      }
-    }
-    this.saveInLocalStorage();
+    let httpOptions= {
+      headers: new HttpHeaders({
+        'Content-Type':  'application/json',
+        'Authorization': this.userService.getLoggedUser().token
+      })
+    };
+    this.http.post<Film[]>("http://netflix.cristiancarrino.com/film/delete.php",{"id": toDelete.id},httpOptions).subscribe(response =>{
+      
+      console.log(response);
+      } );
 
   }
 
