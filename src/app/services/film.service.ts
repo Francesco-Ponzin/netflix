@@ -3,6 +3,8 @@ import { Film } from '../models/film';
 import { Observable, of } from 'rxjs';
 import { LocalStorageService, SessionStorageService } from 'ngx-webstorage';
 import { UserService } from './user.service';
+import { HttpClient } from '@angular/common/http';
+
 
 const FILMS: Film[] = [
   {
@@ -87,7 +89,7 @@ export class FilmService {
   films: Film[];
 
 
-  constructor(private localStorage: LocalStorageService, private userService: UserService) {
+  constructor(private localStorage: LocalStorageService, private userService: UserService, private http: HttpClient) {
   }
 
   saveInLocalStorage() {
@@ -95,8 +97,11 @@ export class FilmService {
   }
 
   getFilms(): Observable<Film[]> {
-    this.films = this.localStorage.retrieve("films") || FILMS;
-    return of(this.films);
+
+  //  this.films = this.localStorage.retrieve("films") || FILMS;
+  //  return of(this.films);
+  
+  return this.http.get<Film[]>("https://crepidoma.ddns.net/engim/netflixapi/v1/films.json");
   }
 
   addFilm() {

@@ -9,7 +9,7 @@ export interface Film {
     duration: string;
     releaseYear: number;
     stars: number;
-    cast: Actor[];
-    genres: Genre[];
+    cast?: Actor[];
+    genres?: Genre[];
     tags: string;
 }

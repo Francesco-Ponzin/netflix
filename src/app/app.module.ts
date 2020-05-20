@@ -20,6 +20,7 @@ import { FilmsComponent } from './films/films.component';
 import { GenresComponent } from './genres/genres.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { StarComponent } from './star/star.component';
+import { HttpClientModule }    from '@angular/common/http';
 
 
 @NgModule({
@@ -43,6 +44,7 @@ import { StarComponent } from './star/star.component';
     FormsModule,
     NgxWebstorageModule.forRoot(),
     FontAwesomeModule,
+    HttpClientModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
