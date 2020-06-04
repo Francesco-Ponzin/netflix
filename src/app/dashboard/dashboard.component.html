@@ -1,12 +1,12 @@
 <h2>Dashboard </h2>
-<div class="login" *ngIf="!this.userService.getLoggedUser()">
+<div class="login" *ngIf="!this.userService.loggedUser">
     <label for="username">Username</label><input type="text" name="username" id="username" [(ngModel)]="username">
     <label for="password">Password</label><input type="password" name="password" id="password" [(ngModel)]="password">
     <button (click)="this.login()">login</button>
 
 </div>
-<button *ngIf="this.userService.getLoggedUser()" (click)="this.userService.logout()">logout</button>
-<h3 *ngIf="this.userService.getLoggedUser()">Bentornato {{this.userService.loggedUser.firstname}}
+<button *ngIf="this.userService.loggedUser" (click)="this.userService.logout()">logout</button>
+<h3 *ngIf="this.userService.loggedUser">Bentornato {{this.userService.loggedUser.firstname}}
     {{this.userService.loggedUser.lastname}}</h3>
 
 <div class="list">
@@ -16,7 +16,7 @@
         <ol>
             <li *ngFor="let film of topFilms">
                 {{film.title}} 
-                <span class="clickable" *ngIf="this.userService.getLoggedUser()">
+                <span class="clickable" *ngIf="this.userService.loggedUser">
                     <span  *ngIf="this.userService.isFavorite(film)" (click)="this.userService.removeFavorite(film)">
                         ❤
                     </span>
@@ -25,7 +25,7 @@
                     </span>
                 </span>
                 <br>
-                <app-star [film]="film" [ngClass]="{'clickable' : this.userService.getLoggedUser()}" (voteChanged)="ngOnInit()"></app-star>
+                <app-star [film]="film" [ngClass]="{'clickable' : this.userService.loggedUser}" (voteChanged)="ngOnInit()"></app-star>
 
             </li>
         </ol>
@@ -37,7 +37,7 @@
         <ol>
             <li *ngFor="let film of lastFilms">
                 {{film.title}}
-                <span class="clickable" *ngIf="this.userService.getLoggedUser()">
+                <span class="clickable" *ngIf="this.userService.loggedUser">
                     <span  *ngIf="this.userService.isFavorite(film)" (click)="this.userService.removeFavorite(film)">
                         ❤
                     </span>
