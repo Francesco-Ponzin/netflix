@@ -2,7 +2,7 @@
 <a routerLink="/">Torna alla home</a>
 
 <ul *ngIf="this.actorService.actors.length">
-    <li *ngFor="let actor of this.actorService.actors">
+    <li *ngFor="let actor of this.actorService.actors" [ngClass]="{deleting: actor.createdBy == 'garbageCollector'}">
         {{actor.firstname}} {{actor.lastname}}
         <span *ngIf="actor.createdBy == this.userService.getLoggedUser().id">
             <a routerLink="/actors/edit" (click)="edit(actor)">modifica</a>

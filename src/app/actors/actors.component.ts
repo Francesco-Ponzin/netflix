@@ -2,8 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActorService } from '../services/actor.service';
 import { Actor } from '../models/actor';
 import { UserService } from '../services/user.service';
-import { User } from '../models/user';
-import { throwIfEmpty } from 'rxjs/operators';
+
 
 @Component({
   selector: 'app-actors',
@@ -17,6 +16,7 @@ export class ActorsComponent implements OnInit {
 
   ngOnInit(): void {
     this.actorService.getActors().subscribe();
+    this.actorService.actors;
   }
 
   edit(actor: Actor) {
@@ -25,7 +25,7 @@ export class ActorsComponent implements OnInit {
 
   deleteActor(actor: Actor) {
     this.actorService.deleteActor(actor);
-    this.actorService.getActors().subscribe();
+ 
   }
 
 }

@@ -17,3 +17,7 @@ button, a{
 .clickable{
     cursor: pointer;
 }
+
+.deleting{
+    color: grey;
+}

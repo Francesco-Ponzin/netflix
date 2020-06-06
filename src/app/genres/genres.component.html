@@ -1,7 +1,7 @@
 <h2>Generi</h2>
 <a routerLink="/">Torna alla home</a>
-<ul *ngIf="genres.length">
-    <li *ngFor="let genre of genres">
+<ul *ngIf="this.genreService.genres.length">
+    <li *ngFor="let genre of this.genreService.genres" [ngClass]="{deleting: genre.createdBy == 'garbageCollector'}" >
         {{genre.name}}
         <span *ngIf="genre.createdBy == this.userService.getLoggedUser().id">
             <br>

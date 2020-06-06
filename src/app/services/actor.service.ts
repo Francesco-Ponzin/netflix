@@ -29,13 +29,13 @@ export class ActorService {
 
   getActors(): Observable<Actor[]> {
 
-    if (this.actors){
+    if (this.actors) {
       return of(this.actors);
     }
 
     return this.http.get<Actor[]>("http://netflix.cristiancarrino.com/actor/read.php").pipe(
       tap(response => this.actors = response));
-    
+
   }
 
   addActor() {
@@ -54,7 +54,7 @@ export class ActorService {
 
       this.http.get<Actor[]>("http://netflix.cristiancarrino.com/actor/read.php").subscribe(response => this.actors = response);
 
-  });
+    });
     this.newActor = {
       firstname: "",
       lastname: ""
@@ -86,15 +86,20 @@ export class ActorService {
 
   deleteActor(toDelete: Actor) {
 
+    toDelete.createdBy = "garbageCollector";
+
     let httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
-        'Authorization': this.userService.getLoggedUser().token
+        'Authorization': this.userService.getLoggedUser().token,
       })
     };
-    this.http.post<Actor[]>("http://netflix.cristiancarrino.com/actor/delete.php", { "id": toDelete.id }, httpOptions).subscribe(response2 => {
+    this.http.post<Actor[]>("http://netflix.cristiancarrino.com/actor/delete.php", { "id": toDelete.id }, httpOptions).subscribe(() => {
 
-      this.http.get<Actor[]>("http://netflix.cristiancarrino.com/actor/read.php").subscribe(actors => this.actors = actors);
+      console.log("ddd");
+
+
+      this.http.get<Actor[]>("http://netflix.cristiancarrino.com/actor/read.php").subscribe(actors => console.log(this.actors = actors));
     });
 
   }

@@ -3,6 +3,7 @@ import { Genre } from '../models/genre';
 import { Observable, of } from 'rxjs';
 import { UserService } from './user.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { tap } from 'rxjs/operators';
 
 
 
@@ -27,13 +28,15 @@ export class GenreService {
 
 
   getGenres(): Observable<Genre[]> {
-    return this.http.get<Genre[]>("http://netflix.cristiancarrino.com/genre/read.php");
+    if (this.genres) {
+      return of(this.genres);
+    }
+    return this.http.get<Genre[]>("http://netflix.cristiancarrino.com/genre/read.php").pipe(
+      tap(response => this.genres = response));;
 
   }
 
   addGenre() {
-    this.genres.push(this.newGenre);
-
 
     let httpOptions = {
       headers: new HttpHeaders({
@@ -46,8 +49,9 @@ export class GenreService {
 
     this.http.post<Genre>("http://netflix.cristiancarrino.com/genre/create.php", this.newGenre, httpOptions).subscribe(response => {
 
+      this.http.get<Genre[]>("http://netflix.cristiancarrino.com/genre/read.php").subscribe(response => this.genres = response);
 
-  });
+    });
     this.newGenre = {
       name: ""
     }
@@ -69,7 +73,7 @@ export class GenreService {
 
     this.http.post<Genre>("http://netflix.cristiancarrino.com/genre/update.php", this.selectedGenre, httpOptions).subscribe(response => {
 
-      console.log(response);
+      this.http.get<Genre[]>("http://netflix.cristiancarrino.com/genre/read.php").subscribe(response => this.genres = response);
     });
     this.selectedGenre = null;
 
@@ -78,6 +82,8 @@ export class GenreService {
 
 
   deleteGenre(toDelete: Genre) {
+
+    toDelete.createdBy = "garbageCollector";
 
 
     let httpOptions = {
@@ -88,7 +94,7 @@ export class GenreService {
     };
     this.http.post<Genre[]>("http://netflix.cristiancarrino.com/genre/delete.php", { "id": toDelete.id }, httpOptions).subscribe(response2 => {
 
-      console.log(response2);
+      this.http.get<Genre[]>("http://netflix.cristiancarrino.com/genre/read.php").subscribe(response => this.genres = response);
     });
 
   }
