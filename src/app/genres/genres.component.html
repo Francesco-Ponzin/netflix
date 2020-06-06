@@ -2,11 +2,14 @@
 <a routerLink="/">Torna alla home</a>
 <ul *ngIf="genres.length">
     <li *ngFor="let genre of genres">
-           {{genre.name}}
-           <a  routerLink="/genres/edit" (click)="edit(genre)">modifica</a>
-           <a  (click)="this.genreService.deleteGenre(genre)">elimina</a>
+        {{genre.name}}
+        <span *ngIf="genre.createdBy == this.user.id">
+
+            <a routerLink="/genres/edit" (click)="edit(genre)">modifica</a>
+            <a (click)="this.genreService.deleteGenre(genre)">elimina</a>
+        </span>
     </li>
 
 </ul>
 
-<a  routerLink="/genres/add" >aggiungi</a>
+<a routerLink="/genres/add">aggiungi</a>
