@@ -3,7 +3,8 @@
 <ul *ngIf="genres.length">
     <li *ngFor="let genre of genres">
         {{genre.name}}
-        <span *ngIf="genre.createdBy == this.user.id">
+        <span *ngIf="genre.createdBy == this.userService.getLoggedUser().id">
+            <br>
 
             <a routerLink="/genres/edit" (click)="edit(genre)">modifica</a>
             <a (click)="this.genreService.deleteGenre(genre)">elimina</a>

@@ -12,20 +12,20 @@ import { throwIfEmpty } from 'rxjs/operators';
 })
 export class ActorsComponent implements OnInit {
 
-  actors: Actor[];
-  user: User;
 
-  constructor(private userService: UserService, public actorService: ActorService) { }
+  constructor(public userService: UserService, public actorService: ActorService) { }
 
   ngOnInit(): void {
-    this.actorService.getActors().subscribe(actors => {
-    this.actors = actors; console.log(this.actors);
-    });
-    this.userService.getLoggedUser().subscribe(user => this.user = user);
+    this.actorService.getActors().subscribe();
   }
 
   edit(actor: Actor) {
     this.actorService.selectedActor = actor;
+  }
+
+  deleteActor(actor: Actor) {
+    this.actorService.deleteActor(actor);
+    this.actorService.getActors().subscribe();
   }
 
 }

@@ -4,26 +4,7 @@ import { LocalStorageService } from 'ngx-webstorage';
 import { Observable, of } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { UserService } from './user.service';
-
-const ACTORS: Actor[] = [
-  {
-    firstname: "George",
-    lastname: "Clooney"
-  },
-  {
-    firstname: "John",
-    lastname: "Turturro"
-  },
-  {
-    firstname: "Marlon",
-    lastname: "Brando"
-  },
-  {
-    firstname: "Meryl",
-    lastname: "Streep"
-  }
-
-]
+import { tap } from 'rxjs/operators';
 
 
 
@@ -41,83 +22,80 @@ export class ActorService {
   actors: Actor[];
 
 
-  constructor( private userService: UserService, private http: HttpClient) {
+  constructor(private userService: UserService, private http: HttpClient) {
   }
 
 
 
   getActors(): Observable<Actor[]> {
 
-    return this.http.get<Actor[]>("http://netflix.cristiancarrino.com/actor/read.php");
+    if (this.actors){
+      return of(this.actors);
+    }
+
+    return this.http.get<Actor[]>("http://netflix.cristiancarrino.com/actor/read.php").pipe(
+      tap(response => this.actors = response));
+    
   }
 
   addActor() {
 
-    this.userService.getLoggedUser().subscribe(response => {
 
-      let httpOptions = {
-        headers: new HttpHeaders({
-          'Content-Type': 'application/json',
-          'Authorization': response.token
-        })
+    let httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': this.userService.getLoggedUser().token
+      })
 
-      };
+    };
 
-      console.log(response.username);
-      
-      this.http.post<Actor>("http://netflix.cristiancarrino.com/actor/create.php", this.newActor, httpOptions).subscribe(response => {
 
-        console.log(response);
-      });
-      this.newActor = {
-        firstname: "",
-        lastname: ""
-      }
+    this.http.post<Actor>("http://netflix.cristiancarrino.com/actor/create.php", this.newActor, httpOptions).subscribe(response => {
 
-    });
+      this.http.get<Actor[]>("http://netflix.cristiancarrino.com/actor/read.php").subscribe(response => this.actors = response);
+
+  });
+    this.newActor = {
+      firstname: "",
+      lastname: ""
+    }
+
 
   }
 
   editActor() {
 
-    this.userService.getLoggedUser().subscribe(response => {
 
-      let httpOptions = {
-        headers: new HttpHeaders({
-          'Content-Type': 'application/json',
-          'Authorization': response.token
-        })
+    let httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': this.userService.getLoggedUser().token
+      })
 
-      };
+    };
 
-      this.http.post<Actor>("http://netflix.cristiancarrino.com/actor/update.php", this.selectedActor, httpOptions).subscribe(response => {
+    this.http.post<Actor>("http://netflix.cristiancarrino.com/actor/update.php", this.selectedActor, httpOptions).subscribe(response => {
 
-        console.log(response);
-      });
+      this.http.get<Actor[]>("http://netflix.cristiancarrino.com/actor/read.php").subscribe(actors => this.actors = actors);
+    });
 
     this.selectedActor = null;
 
-    });
 
   }
 
   deleteActor(toDelete: Actor) {
 
-    this.userService.getLoggedUser().subscribe(response => {
-      let httpOptions = {
-        headers: new HttpHeaders({
-          'Content-Type': 'application/json',
-          'Authorization': response.token
-        })
-      };
-      this.http.post<Actor[]>("http://netflix.cristiancarrino.com/actor/delete.php", { "id": toDelete.id }, httpOptions).subscribe(response2 => {
+    let httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': this.userService.getLoggedUser().token
+      })
+    };
+    this.http.post<Actor[]>("http://netflix.cristiancarrino.com/actor/delete.php", { "id": toDelete.id }, httpOptions).subscribe(response2 => {
 
-        console.log(response2);
-      });
-    })
-
-
-
+      this.http.get<Actor[]>("http://netflix.cristiancarrino.com/actor/read.php").subscribe(actors => this.actors = actors);
+    });
 
   }
 }

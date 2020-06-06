@@ -18,7 +18,7 @@ export class GenreService {
   newGenre: Genre = {
     name: ""
   };
-  genres: Genre[] = [];
+  genres: Genre[];
 
 
   constructor(private userService: UserService, private http: HttpClient) {
@@ -34,50 +34,45 @@ export class GenreService {
   addGenre() {
     this.genres.push(this.newGenre);
 
-    this.userService.getLoggedUser().subscribe(response => {
 
-      let httpOptions = {
-        headers: new HttpHeaders({
-          'Content-Type': 'application/json',
-          'Authorization': response.token
-        })
+    let httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': this.userService.getLoggedUser().token
+      })
 
-      };
+    };
 
-      console.log(response.username);
 
-      this.http.post<Genre>("http://netflix.cristiancarrino.com/genre/create.php", this.newGenre, httpOptions).subscribe(response => {
+    this.http.post<Genre>("http://netflix.cristiancarrino.com/genre/create.php", this.newGenre, httpOptions).subscribe(response => {
 
-        console.log(response);
-      });
-      this.newGenre = {
-        name: ""
-      }
 
-    });
+  });
+    this.newGenre = {
+      name: ""
+    }
+
+
 
   }
 
   editGenre() {
 
-    this.userService.getLoggedUser().subscribe(response => {
 
-      let httpOptions = {
-        headers: new HttpHeaders({
-          'Content-Type': 'application/json',
-          'Authorization': response.token
-        })
+    let httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': this.userService.getLoggedUser().token
+      })
 
-      };
+    };
 
-      this.http.post<Genre>("http://netflix.cristiancarrino.com/genre/update.php", this.selectedGenre, httpOptions).subscribe(response => {
+    this.http.post<Genre>("http://netflix.cristiancarrino.com/genre/update.php", this.selectedGenre, httpOptions).subscribe(response => {
 
-        console.log(response);
-      });
-      this.selectedGenre = null;
-
-
+      console.log(response);
     });
+    this.selectedGenre = null;
+
 
   }
 
@@ -85,18 +80,16 @@ export class GenreService {
   deleteGenre(toDelete: Genre) {
 
 
-    this.userService.getLoggedUser().subscribe(response => {
-      let httpOptions = {
-        headers: new HttpHeaders({
-          'Content-Type': 'application/json',
-          'Authorization': response.token
-        })
-      };
-      this.http.post<Genre[]>("http://netflix.cristiancarrino.com/genre/delete.php", { "id": toDelete.id }, httpOptions).subscribe(response2 => {
+    let httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': this.userService.getLoggedUser().token
+      })
+    };
+    this.http.post<Genre[]>("http://netflix.cristiancarrino.com/genre/delete.php", { "id": toDelete.id }, httpOptions).subscribe(response2 => {
 
-        console.log(response2);
-      });
-    })
+      console.log(response2);
+    });
 
   }
 }

@@ -48,8 +48,12 @@ export class UserService {
   }
 
   getLoggedUser() {
-    this.loggedUser = this.localStorage.retrieve("user");
-    return of(this.loggedUser);
+
+    if (!this.loggedUser ){
+          this.loggedUser = this.localStorage.retrieve("user");
+    }
+  
+    return this.loggedUser;
   }
 
   isFavorite(film: Film): boolean {

@@ -31,7 +31,7 @@ export class FilmService {
   films: Film[];
 
 
-  constructor( private userService: UserService, private http: HttpClient) {
+  constructor(private userService: UserService, private http: HttpClient) {
   }
 
 
@@ -48,37 +48,36 @@ export class FilmService {
 
   addFilm() {
 
-    this.userService.getLoggedUser().subscribe(response => {
 
-      let httpOptions = {
-        headers: new HttpHeaders({
-          'Content-Type': 'application/json',
-          'Authorization': response.token
-        })
+    let httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': this.userService.getLoggedUser().token
+      })
 
-      };
-
+    };
 
 
-      this.http.post<Film[]>("http://netflix.cristiancarrino.com/film/create.php", this.newFilm, httpOptions).subscribe(response => {
 
-        console.log(response);
-      });
+    this.http.post<Film[]>("http://netflix.cristiancarrino.com/film/create.php", this.newFilm, httpOptions).subscribe(response => {
 
-      this.newFilm = {
-        title: "titolo",
-        description: "descrizione",
-        director: "regista",
-        duration: "durata",
-        releaseYear: 1895,
-        stars: 3,
-        cast: [],
-        genres: [],
-        tags: "tags"
-      };
+      console.log(response);
+    });
+
+    this.newFilm = {
+      title: "titolo",
+      description: "descrizione",
+      director: "regista",
+      duration: "durata",
+      releaseYear: 1895,
+      stars: 3,
+      cast: [],
+      genres: [],
+      tags: "tags"
+    };
 
 
-    })
+
 
 
 
@@ -87,27 +86,27 @@ export class FilmService {
 
   editFilm() {
 
-    this.userService.getLoggedUser().subscribe(response => {
-      let httpOptions = {
-        headers: new HttpHeaders({
-          'Content-Type': 'application/json',
-          'Authorization': response.token
-        })
-      };
 
-      this.http.post<Film[]>("http://netflix.cristiancarrino.com/film/update.php", this.selectedFilm, httpOptions).subscribe(response2 => {
+    let httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': this.userService.getLoggedUser().token
+      })
+    };
 
-        console.log(response2);
-      });
-      this.selectedFilm = null;
+    this.http.post<Film[]>("http://netflix.cristiancarrino.com/film/update.php", this.selectedFilm, httpOptions).subscribe(response2 => {
 
-      /*
-      this.selectedFilm = null;
-      this.saveInLocalStorage();
-  
-      */
+      console.log(response2);
+    });
+    this.selectedFilm = null;
 
-    })
+    /*
+    this.selectedFilm = null;
+    this.saveInLocalStorage();
+ 
+    */
+
+
 
 
 
@@ -116,18 +115,17 @@ export class FilmService {
   deleteFilm(toDelete: Film) {
 
 
-    this.userService.getLoggedUser().subscribe(response => {
-      let httpOptions = {
-        headers: new HttpHeaders({
-          'Content-Type': 'application/json',
-          'Authorization': response.token
-        })
-      };
-      this.http.post<Film[]>("http://netflix.cristiancarrino.com/film/delete.php", { "id": toDelete.id }, httpOptions).subscribe(response2 => {
 
-        console.log(response2);
-      });
-    })
+    let httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': this.userService.getLoggedUser().token
+      })
+    };
+    this.http.post<Film[]>("http://netflix.cristiancarrino.com/film/delete.php", { "id": toDelete.id }, httpOptions).subscribe(response2 => {
+
+      console.log(response2);
+    });
 
 
   }
