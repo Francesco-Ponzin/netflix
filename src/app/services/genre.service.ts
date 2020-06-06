@@ -1,43 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Genre } from '../models/genre';
-import { LocalStorageService } from 'ngx-webstorage';
 import { Observable, of } from 'rxjs';
+import { UserService } from './user.service';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
-const GENRES: Genre[] = [
-  {
-    name: "commedia"
-  },
-  {
-    name: "traggedia"
-  },
-  {
-    name: "animazione"
-  },
-  {
-    name: "western"
-  },
-  {
-    name: "fantascienza"
-  },
-  {
-    name: "drammatico"
-  },
-  {
-    name: "comico"
-  },
-  {
-    name: "fantasy"
-  },
-  {
-    name: "cerebrale"
-  },
-  {
-    name: "storico"
-  },
-  {
-    name: "romantico"
-  }
-]
+
 
 
 @Injectable({
@@ -48,44 +15,88 @@ const GENRES: Genre[] = [
 export class GenreService {
 
   selectedGenre: Genre;
-  newGenre: Genre ={
+  newGenre: Genre = {
     name: ""
   };
-  genres: Genre[];
+  genres: Genre[] = [];
 
 
-  constructor(private localStorage: LocalStorageService) {
+  constructor(private userService: UserService, private http: HttpClient) {
   }
 
-  saveInLocalStorage() {
-    this.localStorage.store("genres", this.genres);
-  }
+
 
   getGenres(): Observable<Genre[]> {
-    this.genres = this.localStorage.retrieve("genres") || GENRES;
-    return of(this.genres);
+    return this.http.get<Genre[]>("http://netflix.cristiancarrino.com/genre/read.php");
+
   }
 
   addGenre() {
     this.genres.push(this.newGenre);
-    this.newGenre = {
-      name: ""
-    }
-    this.saveInLocalStorage();
+
+    this.userService.getLoggedUser().subscribe(response => {
+
+      let httpOptions = {
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+          'Authorization': response.token
+        })
+
+      };
+
+      console.log(response.username);
+
+      this.http.post<Genre>("http://netflix.cristiancarrino.com/genre/create.php", this.newGenre, httpOptions).subscribe(response => {
+
+        console.log(response);
+      });
+      this.newGenre = {
+        name: ""
+      }
+
+    });
+
   }
 
   editGenre() {
-    this.selectedGenre = null;
-    this.saveInLocalStorage();
+
+    this.userService.getLoggedUser().subscribe(response => {
+
+      let httpOptions = {
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+          'Authorization': response.token
+        })
+
+      };
+
+      this.http.post<Genre>("http://netflix.cristiancarrino.com/genre/update.php", this.selectedGenre, httpOptions).subscribe(response => {
+
+        console.log(response);
+      });
+      this.selectedGenre = null;
+
+
+    });
+
   }
 
-  deleteGenre(toDelete: Genre){
-    for (let i = 0; i < this.genres.length; i++) {
-      if(this.genres[i] == toDelete){
-        this.genres.splice(i,1);
-      }
-    }
-    this.saveInLocalStorage();
+
+  deleteGenre(toDelete: Genre) {
+
+
+    this.userService.getLoggedUser().subscribe(response => {
+      let httpOptions = {
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+          'Authorization': response.token
+        })
+      };
+      this.http.post<Genre[]>("http://netflix.cristiancarrino.com/genre/delete.php", { "id": toDelete.id }, httpOptions).subscribe(response2 => {
+
+        console.log(response2);
+      });
+    })
 
   }
 }

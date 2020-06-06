@@ -5,24 +5,7 @@ import { Film } from '../models/film';
 import { HttpClient } from '@angular/common/http';
 import { of } from 'rxjs';
 
-const USERS: User[] = [
-  {
-    id: 1,
-    firstname: "Francesco",
-    lastname: "Ponzin",
-    favoritesFilm: [],
-    username: "wilson",
-    password: "passwd"
-  },
-  {
-    id: 1,
-    firstname: "Cristian",
-    lastname: "Carrino",
-    favoritesFilm: [],
-    username: "cri",
-    password: "fitness"
-  },
-]
+
 
 @Injectable({
   providedIn: 'root'

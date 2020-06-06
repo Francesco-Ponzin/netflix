@@ -7,66 +7,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { tap } from 'rxjs/operators';
 
 
-const FILMS: Film[] = [
-  {
-    id: 1,
-    title: "Apocalypse Now",
-    description: "Il miglior adattamento cinematografico di Cuore di Tenebra",
-    director: "Francis Ford Coppola",
-    duration: "2h 33m",
-    releaseYear: 1979,
-    stars: 10,
-    cast: [
-      {
-        firstname: "Marlon",
-        lastname: "Brando"
-      }
-    ],
-    genres: [
-      {
-        name: "Avventura"
-      }
-    ],
-    tags: "tags"
-  },
-  {
-    id: 2,
-    title: 'Fratello, dove sei? ',
-    description: 'La Un misterioso uomo delle legge dà la caccia a tre detenuti evasi che viaggiano attraverso gli Stati Uniti alla ricerca della refurtiva di un vecchio colpo. di una ragazza assassinata scrive un controverso messaggio su alcuni cartelloni pubblicitari, aprendo una contesa che vede coinvolti lo stimato capo della polizia e un pericoloso poliziotto.',
-    director: 'Martin Ethan Coen, Joel Coen',
-    duration: '106 min',
-    releaseYear: 2000,
-    stars: 5,
-    cast: [
-      {
-        id: 6,
-        firstname: 'George',
-        lastname: 'Clooney'
-      }
-    ],
-    genres: [
-      {
-        name: 'avventura',
-      },
-      {
-        name: 'commedia',
-      }
-    ],
-    tags: 'hollywood, clooney',
-  },
-  {
-    id: 3,
-    title: "Inside Out",
-    description: "Una ragazzina è alle prese col trasloco: città nuova, amici nuovi, sport nuovi",
-    director: " Pete Docter, Ronnie Del Carmen",
-    duration: "1h 35min",
-    releaseYear: 2015,
-    stars: 10,
-    cast: [],
-    genres: [],
-    tags: "psichiatria"
-  }
-]
+
 
 
 @Injectable({
@@ -89,21 +30,13 @@ export class FilmService {
   };
   films: Film[];
 
-  httpOptions = {
-    header: new Headers({ "Content-Type": "application/json", 'Authorization': "" })
-  };
 
-
-  constructor(private localStorage: LocalStorageService, private userService: UserService, private http: HttpClient) {
+  constructor( private userService: UserService, private http: HttpClient) {
   }
 
-  saveInLocalStorage() {
-    this.localStorage.store("films", this.films);
-  }
+
 
   getFilms(): Observable<Film[]> {
-
-
 
     return this.http.get<Film[]>("http://netflix.cristiancarrino.com/film/read.php").pipe(
       tap(response => console.log(response),
@@ -125,12 +58,9 @@ export class FilmService {
 
       };
 
-      let toAdd = Object.assign({}, this.newFilm);
 
-      //toAdd.cast = toAdd.cast.map(x => x.id);
-      //toAdd.genres = toAdd.genres.map(x => x.id);
 
-      this.http.post<Film[]>("http://netflix.cristiancarrino.com/film/create.php", toAdd, httpOptions).subscribe(response => {
+      this.http.post<Film[]>("http://netflix.cristiancarrino.com/film/create.php", this.newFilm, httpOptions).subscribe(response => {
 
         console.log(response);
       });
@@ -214,7 +144,8 @@ export class FilmService {
   setStars(film: Film, stars: number) {
     if (this.userService.loggedUser) {
       film.stars = stars;
-      this.saveInLocalStorage();
+
+      //TODO
     }
   }
 

@@ -3,11 +3,14 @@
 
 <ul *ngIf="actors.length">
     <li *ngFor="let actor of actors">
-           {{actor.firstname}} {{actor.lastname}} 
-           <a  routerLink="/actors/edit" (click)="edit(actor)">modifica</a>
-           <a  (click)="this.actorService.deleteActor(actor)">elimina</a>
+        {{actor.firstname}} {{actor.lastname}}
+        <span *ngIf="actor.createdBy == this.user.id">
+            <a routerLink="/actors/edit" (click)="edit(actor)">modifica</a>
+            <a (click)="this.actorService.deleteActor(actor)">elimina</a>
+        </span>
+
     </li>
 
 </ul>
 
-<a  routerLink="/actors/add" >aggiungi</a>
+<a routerLink="/actors/add">aggiungi</a>
