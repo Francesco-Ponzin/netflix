@@ -10,7 +10,7 @@ export class FilmFilterPipe implements PipeTransform {
     let search = args[0].toLowerCase();
     if (search.length > 2) {
 
-      return value.filter(film => film.title.toLowerCase().indexOf(search) > -1);
+      return value.filter(film => (film.title.toLowerCase().indexOf(search) > -1 || film.director.toLowerCase().indexOf(search) > -1 || film.cast.map(actor => actor.firstname + ' ' + actor.lastname).join().toLowerCase().indexOf(search) > -1));
     }
     return value;
   }
