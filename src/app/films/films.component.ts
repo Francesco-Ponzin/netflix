@@ -11,7 +11,6 @@ import { UserService } from '../services/user.service';
 })
 export class FilmsComponent implements OnInit {
 
-  title = "elenco film";
   search: string = "";
 
 
