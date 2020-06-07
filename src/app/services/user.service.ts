@@ -95,9 +95,9 @@ export class UserService {
         'Authorization': this.loggedUser.token
       })
     };
-    this.http.post<any[]>("http://netflix.cristiancarrino.com/user/favorite-films.php", { "id": '"' + this.loggedUser.favoritesFilm.toString() + '"' }, httpOptions).subscribe(response2 => {
+    this.http.post<any[]>("http://netflix.cristiancarrino.com/user/favorite-films.php", { "ids": this.loggedUser.favoritesFilm.toString() }, httpOptions).subscribe(response2 => {
 
-    console.log(this.loggedUser.favoritesFilm.toString());
+      console.log(this.loggedUser.favoritesFilm.toString());
       console.log(response2);
 
     });
