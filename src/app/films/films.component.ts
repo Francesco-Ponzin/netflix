@@ -13,7 +13,6 @@ export class FilmsComponent implements OnInit {
 
   title = "elenco film";
 
-  films: Film[];
   filteredFilms: Film[];
   searchTask;
 
@@ -22,7 +21,7 @@ export class FilmsComponent implements OnInit {
   constructor(public filmService: FilmService, public userService :UserService) { }
 
   ngOnInit(): void {
-    this.filmService.getFilms().subscribe(films => {this.films = films; this.filteredFilms = this.films;
+    this.filmService.getFilms().subscribe(films => {this.filteredFilms = films;
     });
 
   }
@@ -37,12 +36,12 @@ export class FilmsComponent implements OnInit {
 
     if (event.target.value.length > 2) {
       this.searchTask = setTimeout(() => {
-        this.filteredFilms = this.films.filter(x => x.title.toLowerCase().indexOf(event.target.value.toLowerCase()) !== -1);
+        this.filteredFilms = this.filmService.films.filter(x => x.title.toLowerCase().indexOf(event.target.value.toLowerCase()) !== -1);
       }, 300)
 
     } else {
       this.searchTask = setTimeout(() => {
-        this.filteredFilms = this.films;
+        this.filteredFilms = this.filmService.films;
       }, 300)
     }
 

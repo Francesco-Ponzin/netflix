@@ -1,19 +1,39 @@
 <div>
-    <input type="text" [(ngModel)]="this.filmService.selectedFilm.title">
-    <input type="text" [(ngModel)]="this.filmService.selectedFilm.description">
-    <input type="text" [(ngModel)]="this.filmService.selectedFilm.director">
-    <input type="text" [(ngModel)]="this.filmService.selectedFilm.duration">
-    <input type="number" [(ngModel)]="this.filmService.selectedFilm.releaseYear">
-    <input type="number" [(ngModel)]="this.filmService.selectedFilm.stars">
-    <input type="text" [(ngModel)]="this.filmService.selectedFilm.tags">
-    <select multiple [(ngModel)]="this.filmService.selectedFilm.cast">
-        <option [value]="actor" *ngFor="let actor of actors">{{actor.firstname}} {{actor.lastname}}</option>
-    </select>
-    <select multiple [(ngModel)]="this.filmService.selectedFilm.genres">
-        <option [value]="genre" *ngFor="let genre of genres">{{genre.name}}</option>
-    </select>
+    <p class="controls">
+        <a routerLink="/films" (click)="this.filmService.editFilm()">salva</a>
+        <a routerLink="/films">annulla</a>
+    </p>
+
+    <div><label>Titolo: </label><input type="text" [(ngModel)]="this.filmService.selectedFilm.title"></div>
+    <div><label>Descrizione: </label><textarea type="text"
+            [(ngModel)]="this.filmService.selectedFilm.description"></textarea></div>
+    <div><label>Trama: </label><textarea type="text" [(ngModel)]="this.filmService.selectedFilm.plot"></textarea></div>
+    <div><label>Regista: </label><input type="text" [(ngModel)]="this.filmService.selectedFilm.director"></div>
+    <div><label>Durata: </label><input type="text" [(ngModel)]="this.filmService.selectedFilm.duration"></div>
+    <div><label>Anno: </label><input type="number" [(ngModel)]="this.filmService.selectedFilm.releaseYear"></div>
+    <div><label>Voto: </label><input type="number" [(ngModel)]="this.filmService.selectedFilm.stars"></div>
+    <div><label>tags</label><input type="text" [(ngModel)]="this.filmService.selectedFilm.tags"></div>
+
+    <div><label for="">Cast: </label>
+
+        <ul>
+            <li *ngFor="let actor of actors"
+                (click)="this.filmService.toggleActor(this.filmService.selectedFilm, actor)"  class="clickable"
+                [ngClass]="{deleting: !this.filmService.isStarring(this.filmService.selectedFilm, actor)}">
+                {{actor.firstname}} {{actor.lastname}}
+            </li>
+        </ul>
+    </div>
+    <div><label for="">Generi: </label>
+
+        <ul>
+            <li *ngFor="let genre of genres"
+                (click)="this.filmService.toggleGenre(this.filmService.selectedFilm, genre)"  class="clickable"
+                [ngClass]="{deleting: !this.filmService.hasGenre(this.filmService.selectedFilm, genre)}">
+                {{genre.name}}
+            </li>
+        </ul>
+
+    </div>
+
 </div>
-
-
-<a routerLink="/films" (click)="this.filmService.editFilm()">salva</a>
-
