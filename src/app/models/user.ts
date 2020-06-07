@@ -4,7 +4,8 @@ export interface User{
     id?: number;
     firstname: string;
     lastname: string;
-    favoritesFilm: Film[];
+    favoritesFilm?: Film[];
+    favorite_film?: string;
     username:string;
     password: string;
     token?:string;

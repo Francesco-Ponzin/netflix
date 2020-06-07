@@ -3,25 +3,9 @@ import { User } from '../models/user';
 import { LocalStorageService } from 'ngx-webstorage';
 import { Film } from '../models/film';
 import { HttpClient } from '@angular/common/http';
+import { of } from 'rxjs';
 
-const USERS: User[] = [
-  {
-    id: 1,
-    firstname: "Francesco",
-    lastname: "Ponzin",
-    favoritesFilm: [],
-    username: "wilson",
-    password: "passwd"
-  },
-  {
-    id: 1,
-    firstname: "Cristian",
-    lastname: "Carrino",
-    favoritesFilm: [],
-    username: "cri",
-    password: "fitness"
-  },
-]
+
 
 @Injectable({
   providedIn: 'root'
@@ -45,11 +29,12 @@ export class UserService {
       console.log(response);
 
       this.loggedUser = response;
-      if (!this.loggedUser.favoritesFilm){
+      if (!this.loggedUser.favoritesFilm) {
         this.loggedUser.favoritesFilm = [];
       }
 
       this.localStorage.store("user", this.loggedUser);
+
 
     });
 
@@ -63,16 +48,23 @@ export class UserService {
   }
 
   getLoggedUser() {
-    this.loggedUser = this.localStorage.retrieve("user");
+
+    if (!this.loggedUser ){
+          this.loggedUser = this.localStorage.retrieve("user");
+    }
+  
     return this.loggedUser;
   }
 
   isFavorite(film: Film): boolean {
-    for (let favorite of this.loggedUser.favoritesFilm) {
-      if (film.id === favorite.id) {
-        return true;
+    if (this.loggedUser !== null) {
+      for (let favorite of this.loggedUser.favoritesFilm) {
+        if (film.id === favorite.id) {
+          return true;
+        }
       }
     }
+
     return false;
   }
 

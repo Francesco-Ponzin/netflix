@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActorService } from '../services/actor.service';
 import { Actor } from '../models/actor';
+import { UserService } from '../services/user.service';
+
 
 @Component({
   selector: 'app-actors',
@@ -9,17 +11,21 @@ import { Actor } from '../models/actor';
 })
 export class ActorsComponent implements OnInit {
 
-  actors: Actor[];
 
-  constructor(public actorService: ActorService) { }
+  constructor(public userService: UserService, public actorService: ActorService) { }
 
   ngOnInit(): void {
-    this.actorService.getActors().subscribe(actors => this.actors = actors);
-
+    this.actorService.getActors().subscribe();
+    this.actorService.actors;
   }
 
   edit(actor: Actor) {
     this.actorService.selectedActor = actor;
+  }
+
+  deleteActor(actor: Actor) {
+    this.actorService.deleteActor(actor);
+ 
   }
 
 }

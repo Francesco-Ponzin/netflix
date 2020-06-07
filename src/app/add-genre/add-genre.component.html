@@ -1,4 +1,4 @@
 <div>
-    <input type="text" [(ngModel)]="this.genreService.newGenre.name">
+    <label for="genre">Nuovo genere: </label> <input type="text" [(ngModel)]="this.genreService.newGenre.name">
 </div>
 <a routerLink="/genres" (click)="this.genreService.addGenre()">salva</a>

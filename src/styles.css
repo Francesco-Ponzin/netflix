@@ -17,3 +17,23 @@ button, a{
 .clickable{
     cursor: pointer;
 }
+
+.deleting{
+    color: grey;
+}
+
+
+
+
+label{
+    min-width: 8em;
+    display: inline-block;
+}
+
+.controls{
+    position: sticky;
+    top: 0;
+    background-color: white;
+    display: inline-block;
+    padding: 0.5em;
+}

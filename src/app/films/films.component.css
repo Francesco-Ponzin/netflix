@@ -10,8 +10,7 @@
     border: burlywood solid 1px;
     border-radius: 0.3em;
     padding: 1em;
-    display: flex;
-    flex-direction: row;
+   
     width: 22em;
     margin: 0.2em;
 
@@ -20,7 +19,7 @@
 .detailBox > div{
     display: flex;
     flex-direction: column;
-    margin: 0 1em;
+
 }
 
 
@@ -28,7 +27,6 @@
 
     color: brown;
     font-size: larger;
-    display: inline-block;
     margin-bottom: 0.7em;
     font-weight: bold;
 }
@@ -38,13 +36,15 @@
 
     color: brown;
     font-size: smaller;
-    display: inline-block;
+    font-weight: normal;
+
 }
 
-.detailBox > img{
+.detailBox  img{
 
-    height: 10em;
+    height: 11em;
     margin-top: 0.3em;
+    float:right;
 }
 
 .detailBox .controls{
@@ -55,4 +55,15 @@
 
 .hidden{
     display: none !important;
+}
+
+
+div.deleting{
+    background-color: lightgoldenrodyellow;
+}
+
+@media (max-width: 400px){
+    .detailBox{
+        font-size: 0.8em;
+    }
 }

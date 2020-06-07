@@ -1,12 +1,15 @@
-<h2>Generi</h2>
-<a routerLink="/">Torna alla home</a>
-<ul *ngIf="genres.length">
-    <li *ngFor="let genre of genres">
-           {{genre.name}}
-           <a  routerLink="/genres/edit" (click)="edit(genre)">modifica</a>
-           <a  (click)="this.genreService.deleteGenre(genre)">elimina</a>
+<p class="controls">
+    <a routerLink="/">Torna alla home</a>
+    <a routerLink="/genres/add" *ngIf="this.userService.getLoggedUser()">aggiungi</a>
+</p>
+<ul *ngIf="this.genreService.genres.length">
+    <li *ngFor="let genre of this.genreService.genres" [ngClass]="{deleting: genre.createdBy == 'garbageCollector'}">
+        {{genre.name}}
+        <span *ngIf="this.userService.getLoggedUser() && genre.createdBy == this.userService.getLoggedUser().id">
+            <br>
+            <a routerLink="/genres/edit" (click)="edit(genre)">modifica</a>
+            <a (click)="this.genreService.deleteGenre(genre)">elimina</a>
+        </span>
     </li>
 
 </ul>
-
-<a  routerLink="/genres/add" >aggiungi</a>

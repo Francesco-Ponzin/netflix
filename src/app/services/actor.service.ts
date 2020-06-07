@@ -2,26 +2,9 @@ import { Injectable } from '@angular/core';
 import { Actor } from '../models/actor';
 import { LocalStorageService } from 'ngx-webstorage';
 import { Observable, of } from 'rxjs';
-
-const ACTORS: Actor[] = [
-  {
-    firstname: "George",
-    lastname: "Clooney"
-  },
-  {
-    firstname: "John",
-    lastname: "Turturro"
-  },
-  {
-    firstname: "Marlon",
-    lastname: "Brando"
-  },
-  {
-    firstname: "Meryl",
-    lastname: "Streep"
-  }
-
-]
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { UserService } from './user.service';
+import { tap } from 'rxjs/operators';
 
 
 
@@ -39,39 +22,85 @@ export class ActorService {
   actors: Actor[];
 
 
-  constructor(private localStorage: LocalStorageService) {
+  constructor(private userService: UserService, private http: HttpClient) {
   }
 
-  saveInLocalStorage() {
-    this.localStorage.store("actors", this.actors);
-  }
+
 
   getActors(): Observable<Actor[]> {
-    this.actors = this.localStorage.retrieve("actors") || ACTORS;
-    return of(this.actors);
+
+    if (this.actors) {
+      return of(this.actors);
+    }
+
+    return this.http.get<Actor[]>("http://netflix.cristiancarrino.com/actor/read.php").pipe(
+      tap(response => this.actors = response));
+
   }
 
   addActor() {
-    this.actors.push(this.newActor);
+
+
+    let httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': this.userService.getLoggedUser().token
+      })
+
+    };
+
+
+    this.http.post<Actor>("http://netflix.cristiancarrino.com/actor/create.php", this.newActor, httpOptions).subscribe(response => {
+
+      this.http.get<Actor[]>("http://netflix.cristiancarrino.com/actor/read.php").subscribe(response => this.actors = response);
+
+    });
     this.newActor = {
       firstname: "",
       lastname: ""
     }
-    this.saveInLocalStorage();
+
+
   }
 
   editActor() {
+
+
+    let httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': this.userService.getLoggedUser().token
+      })
+
+    };
+
+    this.http.post<Actor>("http://netflix.cristiancarrino.com/actor/update.php", this.selectedActor, httpOptions).subscribe(response => {
+
+      this.http.get<Actor[]>("http://netflix.cristiancarrino.com/actor/read.php").subscribe(actors => this.actors = actors);
+    });
+
     this.selectedActor = null;
-    this.saveInLocalStorage();
+
+
   }
 
   deleteActor(toDelete: Actor) {
-    for (let i = 0; i < this.actors.length; i++) {
-      if (this.actors[i] == toDelete) {
-        this.actors.splice(i, 1);
-      }
-    }
-    this.saveInLocalStorage();
+
+    toDelete.createdBy = "garbageCollector";
+
+    let httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': this.userService.getLoggedUser().token,
+      })
+    };
+    this.http.post<Actor[]>("http://netflix.cristiancarrino.com/actor/delete.php", { "id": toDelete.id }, httpOptions).subscribe(() => {
+
+      console.log("ddd");
+
+
+      this.http.get<Actor[]>("http://netflix.cristiancarrino.com/actor/read.php").subscribe(actors => console.log(this.actors = actors));
+    });
 
   }
 }

@@ -5,68 +5,11 @@ import { LocalStorageService, SessionStorageService } from 'ngx-webstorage';
 import { UserService } from './user.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { tap } from 'rxjs/operators';
+import { Actor } from '../models/actor';
+import { Genre } from '../models/genre';
 
 
-const FILMS: Film[] = [
-  {
-    id: 1,
-    title: "Apocalypse Now",
-    description: "Il miglior adattamento cinematografico di Cuore di Tenebra",
-    director: "Francis Ford Coppola",
-    duration: "2h 33m",
-    releaseYear: 1979,
-    stars: 10,
-    cast: [
-      {
-        firstname: "Marlon",
-        lastname: "Brando"
-      }
-    ],
-    genres: [
-      {
-        name: "Avventura"
-      }
-    ],
-    tags: "tags"
-  },
-  {
-    id: 2,
-    title: 'Fratello, dove sei? ',
-    description: 'La Un misterioso uomo delle legge dà la caccia a tre detenuti evasi che viaggiano attraverso gli Stati Uniti alla ricerca della refurtiva di un vecchio colpo. di una ragazza assassinata scrive un controverso messaggio su alcuni cartelloni pubblicitari, aprendo una contesa che vede coinvolti lo stimato capo della polizia e un pericoloso poliziotto.',
-    director: 'Martin Ethan Coen, Joel Coen',
-    duration: '106 min',
-    releaseYear: 2000,
-    stars: 5,
-    cast: [
-      {
-        id: 6,
-        firstname: 'George',
-        lastname: 'Clooney'
-      }
-    ],
-    genres: [
-      {
-        name: 'avventura',
-      },
-      {
-        name: 'commedia',
-      }
-    ],
-    tags: 'hollywood, clooney',
-  },
-  {
-    id: 3,
-    title: "Inside Out",
-    description: "Una ragazzina è alle prese col trasloco: città nuova, amici nuovi, sport nuovi",
-    director: " Pete Docter, Ronnie Del Carmen",
-    duration: "1h 35min",
-    releaseYear: 2015,
-    stars: 10,
-    cast: [],
-    genres: [],
-    tags: "psichiatria"
-  }
-]
+
 
 
 @Injectable({
@@ -89,47 +32,40 @@ export class FilmService {
   };
   films: Film[];
 
-  httpOptions = {
-  header: new Headers({"Content-Type": "application/json", 'Authorization': this.userService.getLoggedUser().token })
-};
-    
 
-  constructor(private localStorage: LocalStorageService, private userService: UserService, private http: HttpClient) {
+  constructor(private userService: UserService, private http: HttpClient) {
   }
 
-  saveInLocalStorage() {
-    this.localStorage.store("films", this.films);
-  }
+
 
   getFilms(): Observable<Film[]> {
 
+    return this.http.get<Film[]>("http://netflix.cristiancarrino.com/film/read.php").pipe(
+      tap(response => this.films = response,
 
-
-  return this.http.get<Film[]>("http://netflix.cristiancarrino.com/film/read.php").pipe(
-    tap( response=>console.log(response),
-
-    )
+      )
     );
 
   }
 
   addFilm() {
-    let httpOptions= {
+
+
+    let httpOptions = {
       headers: new HttpHeaders({
-        'Content-Type':  'application/json',
+        'Content-Type': 'application/json',
         'Authorization': this.userService.getLoggedUser().token
       })
+
     };
 
-    let toAdd = Object.assign({}, this.newFilm);
 
-    //toAdd.cast = toAdd.cast.map(x => x.id);
-    //toAdd.genres = toAdd.genres.map(x => x.id);
 
-    this.http.post<Film[]>("http://netflix.cristiancarrino.com/film/create.php",toAdd,httpOptions).subscribe(response =>{
-      
-    console.log(response);
-    } );
+    this.http.post<Film[]>("http://netflix.cristiancarrino.com/film/create.php", this.newFilm, httpOptions).subscribe(response => {
+      this.http.get<Film[]>("http://netflix.cristiancarrino.com/film/read.php").subscribe(response => this.films = response);
+
+      console.log(response);
+    });
 
     this.newFilm = {
       title: "titolo",
@@ -143,40 +79,52 @@ export class FilmService {
       tags: "tags"
     };
 
+
+
+
+
+
+
   }
 
   editFilm() {
-    let httpOptions= {
+
+
+    let httpOptions = {
       headers: new HttpHeaders({
-        'Content-Type':  'application/json',
+        'Content-Type': 'application/json',
         'Authorization': this.userService.getLoggedUser().token
       })
     };
 
-    this.http.post<Film[]>("http://netflix.cristiancarrino.com/film/update.php",this.selectedFilm,httpOptions).subscribe(response =>{
-      
-      console.log(response);
-      } );
-      this.selectedFilm = null;
+    this.http.post<Film[]>("http://netflix.cristiancarrino.com/film/update.php", this.selectedFilm, httpOptions).subscribe((resp) => {
+      this.http.get<Film[]>("http://netflix.cristiancarrino.com/film/read.php").subscribe(response => this.films = response);
+      console.log(resp);
+    }
 
-    /*
+    );
     this.selectedFilm = null;
-    this.saveInLocalStorage();
 
-    */
+
+
   }
 
   deleteFilm(toDelete: Film) {
-    let httpOptions= {
+
+    toDelete.createdBy = -1;
+
+    let httpOptions = {
       headers: new HttpHeaders({
-        'Content-Type':  'application/json',
+        'Content-Type': 'application/json',
         'Authorization': this.userService.getLoggedUser().token
       })
     };
-    this.http.post<Film[]>("http://netflix.cristiancarrino.com/film/delete.php",{"id": toDelete.id},httpOptions).subscribe(response =>{
-      
-      console.log(response);
-      } );
+    this.http.post<Film[]>("http://netflix.cristiancarrino.com/film/delete.php", { "id": toDelete.id }, httpOptions).subscribe(response2 => {
+      this.http.get<Film[]>("http://netflix.cristiancarrino.com/film/read.php").subscribe(response => this.films = response);
+
+      console.log(response2);
+    });
+
 
   }
 
@@ -190,10 +138,96 @@ export class FilmService {
   }
 
   setStars(film: Film, stars: number) {
-    if (this.userService.loggedUser) {
+    if (this.userService.loggedUser && this.userService.loggedUser.id == film.createdBy ) {
       film.stars = stars;
-      this.saveInLocalStorage();
+      let httpOptions = {
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+          'Authorization': this.userService.getLoggedUser().token
+        })
+      };
+  
+      this.http.post<Film[]>("http://netflix.cristiancarrino.com/film/update.php", film, httpOptions).subscribe((resp) => {
+        this.http.get<Film[]>("http://netflix.cristiancarrino.com/film/read.php").subscribe(response => this.films = response);
+        console.log(resp);
+      }
+  
+      );
     }
   }
+
+  isStarring(film: Film, actor: Actor): boolean {
+    for (let item of film.cast) {
+      if (item.id === actor.id) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  removeActor(film: Film, actor: Actor) {
+    for (let i = 0; i < film.cast.length; i++) {
+      if (film.cast[i].id === actor.id) {
+        film.cast.splice(i, 1);
+      }
+    }
+  }
+
+  addActor(film: Film, actor: Actor) {
+
+    film.cast.push(actor);
+
+  }
+
+  toggleActor(film: Film, actor: Actor) {
+    let found = false;
+    for (let i = 0; i < film.cast.length; i++) {
+      if (film.cast[i].id === actor.id) {
+        film.cast.splice(i, 1);
+        found = true;
+      }
+    }
+    if (!found) {
+      film.cast.push(actor);
+    }
+  }
+
+  hasGenre(film: Film, genre: Genre): boolean {
+    for (let item of film.genres) {
+      if (item.id === genre.id) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+
+  removeGenre(film: Film, genre: Genre) {
+    for (let i = 0; i < film.genres.length; i++) {
+      if (film.genres[i].id === genre.id) {
+        film.genres.splice(i, 1);
+      }
+    }
+  }
+
+  addGenre(film: Film, genre: Genre) {
+
+    film.genres.push(genre);
+
+  }
+
+  toggleGenre(film: Film, genre: Genre) {
+    let found = false;
+    for (let i = 0; i < film.genres.length; i++) {
+      if (film.genres[i].id === genre.id) {
+        film.genres.splice(i, 1);
+        found = true;
+      }
+    }
+    if (!found) {
+      film.genres.push(genre);
+    }
+  }
+
 
 }

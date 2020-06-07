@@ -1,69 +1,9 @@
-.filmlist{
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-}
-
-.detailBox{
-
-    background-color: antiquewhite;
-    border: burlywood solid 1px;
-    border-radius: 0.3em;
-    padding: 1em;
-    display: flex;
-    flex-direction: row;
-    width: 22em;
-    margin: 0.2em;
-
-}
-
-.detailBox > div{
-    display: flex;
-    flex-direction: column;
-    margin: 0 1em;
-}
 
 
-.detailBox .info{
-
-    color: brown;
-    font-size: larger;
+.controls{
+    position: sticky;
+    top: 0;
+    background-color: white;
     display: inline-block;
-    margin-bottom: 0.7em;
-    font-weight: bold;
-}
-
-
-.detailBox .code{
-
-    color: gray;
-    font-size: smaller;
-    display: inline-block;
-}
-
-.detailBox > img{
-
-    height: 10em;
-    margin-top: 0.3em;
-}
-
-.detailBox .controls{
-    margin-top: 0.3em;
-}
-
-button, a{
-    border: none;
-    text-transform: none;
-    margin: 0.5em 1em 0 0;
-    padding: 0;
-    overflow: visible;
-    background: transparent;
-    color: brown;
-    font: inherit;
-    cursor: pointer;
-    text-decoration: none;
-}
-
-.hidden{
-    display: none !important;
+    height: 2em;
 }

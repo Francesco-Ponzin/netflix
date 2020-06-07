@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FilmService } from '../services/film.service';
 import { Film } from '../models/film';
 import { UserService } from '../services/user.service';
+import { User } from '../models/user';
 
 @Component({
   selector: 'app-dashboard',
@@ -17,7 +18,7 @@ export class DashboardComponent implements OnInit {
   topFilms: Film[];
 
 
-  constructor(public filmService: FilmService, public userService: UserService) { }
+  constructor(private filmService: FilmService, public userService: UserService) { }
 
   ngOnInit(): void {
 
