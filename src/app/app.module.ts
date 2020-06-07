@@ -21,6 +21,7 @@ import { GenresComponent } from './genres/genres.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { StarComponent } from './star/star.component';
 import { HttpClientModule }    from '@angular/common/http';
+import { FilmFilterPipe } from './pipes/film-filter.pipe';
 
 
 @NgModule({
@@ -36,7 +37,8 @@ import { HttpClientModule }    from '@angular/common/http';
     EditGenreComponent,
     FilmsComponent,
     GenresComponent,
-    StarComponent
+    StarComponent,
+    FilmFilterPipe
   ],
   imports: [
     BrowserModule,

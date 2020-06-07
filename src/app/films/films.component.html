@@ -5,13 +5,13 @@
    
     <a routerLink="/">Torna alla home</a>
     <a routerLink="/films/add" *ngIf="this.userService.getLoggedUser()">Aggiungi</a> <br>
-    <label for="cerca">Cerca film </label><input type="text" name="cerca" id="cerca" (input)="search($event)"> 
+    <label for="cerca">Cerca film </label><input type="text" name="cerca" id="cerca"[(ngModel)]="search" > 
 </p>
 
 
 
 <div class="filmlist">
-    <div *ngFor="let film of filteredFilms" class="detailBox">
+    <div *ngFor="let film of this.filmService.films | filmFilter:search" class="detailBox" [ngClass]="{deleting: film.createdBy == -1}">
         <img [src]="film.coverUrl" alt="">
         <div>
             <span class="info">{{film.title}}

@@ -12,17 +12,15 @@ import { UserService } from '../services/user.service';
 export class FilmsComponent implements OnInit {
 
   title = "elenco film";
+  search: string = "";
 
-  filteredFilms: Film[];
-  searchTask;
 
 
 
   constructor(public filmService: FilmService, public userService :UserService) { }
 
   ngOnInit(): void {
-    this.filmService.getFilms().subscribe(films => {this.filteredFilms = films;
-    });
+    this.filmService.getFilms().subscribe();
 
   }
 
@@ -30,8 +28,11 @@ export class FilmsComponent implements OnInit {
     this.filmService.selectedFilm = film;
   }
 
-  search(event) {
+/*    I'll let it here for future use
 
+  filteredFilms: Film[];
+  searchTask;
+  search(event) { 
     clearTimeout(this.searchTask);
 
     if (event.target.value.length > 2) {
@@ -47,5 +48,5 @@ export class FilmsComponent implements OnInit {
 
   }
 
-
+*/
 }

@@ -62,6 +62,7 @@ export class FilmService {
 
 
     this.http.post<Film[]>("http://netflix.cristiancarrino.com/film/create.php", this.newFilm, httpOptions).subscribe(response => {
+      this.http.get<Film[]>("http://netflix.cristiancarrino.com/film/read.php").subscribe(response => this.films = response);
 
       console.log(response);
     });
@@ -110,7 +111,7 @@ export class FilmService {
 
   deleteFilm(toDelete: Film) {
 
-
+    toDelete.createdBy = -1;
 
     let httpOptions = {
       headers: new HttpHeaders({
