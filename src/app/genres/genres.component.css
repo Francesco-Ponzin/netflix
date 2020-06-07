@@ -1,0 +1,9 @@
+
+
+.controls{
+    position: sticky;
+    top: 0;
+    background-color: white;
+    display: inline-block;
+    height: 2em;
+}

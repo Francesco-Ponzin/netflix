@@ -1,0 +1,8 @@
+<div>
+    <div> <label for="firstname">Nome: </label><input type="text" [(ngModel)]="this.actorService.newActor.firstname">
+    </div>
+    <div> <label for="lastname">Cognome: </label><input type="text" [(ngModel)]="this.actorService.newActor.lastname">
+    </div>
+
+</div>
+<a routerLink="/actors" (click)="this.actorService.addActor()">salva</a>

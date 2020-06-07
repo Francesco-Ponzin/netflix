@@ -1,0 +1,58 @@
+.list{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.detailBox{
+
+    background-color: antiquewhite;
+    border: burlywood solid 1px;
+    border-radius: 0.3em;
+    padding: 1em;
+    display: flex;
+    flex-direction: row;
+    width: 22em;
+    margin: 0.2em;
+
+}
+
+.detailBox > div{
+    display: flex;
+    flex-direction: column;
+    margin: 0 1em;
+}
+
+
+.detailBox .info{
+
+    color: brown;
+    font-size: larger;
+    display: inline-block;
+    margin-bottom: 0.7em;
+    font-weight: bold;
+}
+
+
+.detailBox .code{
+
+    color: gray;
+    font-size: smaller;
+    display: inline-block;
+}
+
+.detailBox > img{
+
+    height: 10em;
+    margin-top: 0.3em;
+}
+
+.detailBox .controls{
+    margin-top: 0.3em;
+}
+
+
+
+.hidden{
+    display: none !important;
+}

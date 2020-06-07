@@ -1,0 +1,17 @@
+<p class="controls">
+    <a routerLink="/">Torna alla home</a>
+    <a routerLink="/actors/add" *ngIf="this.userService.getLoggedUser()">aggiungi</a>
+</p>
+
+<ul *ngIf="this.actorService.actors.length">
+    <li *ngFor="let actor of this.actorService.actors" [ngClass]="{deleting: actor.createdBy == 'garbageCollector'}">
+        {{actor.firstname}} {{actor.lastname}}
+        <span *ngIf="this.userService.getLoggedUser() && actor.createdBy == this.userService.getLoggedUser().id">
+            <br>
+            <a routerLink="/actors/edit" (click)="edit(actor)">modifica</a>
+            <a routerLink="/actors" (click)="this.deleteActor(actor)">elimina</a>
+        </span>
+
+    </li>
+
+</ul>

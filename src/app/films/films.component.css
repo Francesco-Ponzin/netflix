@@ -1,0 +1,69 @@
+.filmlist{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.detailBox{
+
+    background-color: antiquewhite;
+    border: burlywood solid 1px;
+    border-radius: 0.3em;
+    padding: 1em;
+   
+    width: 22em;
+    margin: 0.2em;
+
+}
+
+.detailBox > div{
+    display: flex;
+    flex-direction: column;
+
+}
+
+
+.detailBox .info{
+
+    color: brown;
+    font-size: larger;
+    margin-bottom: 0.7em;
+    font-weight: bold;
+}
+
+
+.detailBox .code{
+
+    color: brown;
+    font-size: smaller;
+    font-weight: normal;
+
+}
+
+.detailBox  img{
+
+    height: 11em;
+    margin-top: 0.3em;
+    float:right;
+}
+
+.detailBox .controls{
+    margin-top: 0.3em;
+}
+
+
+
+.hidden{
+    display: none !important;
+}
+
+
+div.deleting{
+    background-color: lightgoldenrodyellow;
+}
+
+@media (max-width: 400px){
+    .detailBox{
+        font-size: 0.8em;
+    }
+}
